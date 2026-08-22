@@ -1,0 +1,50 @@
+site_name: Аналіз даних і математичне моделювання
+site_description: Матеріали лекцій і практичних занять курсу
+site_author: Роман Боба
+
+theme:
+  name: material
+  language: uk
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Темна тема
+    - scheme: slate
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Світла тема
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.details
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Курс: index.md
+  - Лекції:
+      - "1. Вступ": lectures/01-vstup.md
+      - "2. NumPy: масиви і векторизовані обчислення": lectures/02-numpy.md
+      - "3. pandas: Series, DataFrame": lectures/03-pandas.md
+      - "4. Шкали вимірювання і tidy data": lectures/04-tidy-data.md
+      - "5. Чищення даних": lectures/05-cleaning.md
+  - Практичні:
+      - "1. Робоче середовище і NumPy": practice/01-numpy-env.md
+      - "2. pandas: побудова DataFrame": practice/02-pandas.md
+      - "3. Приведення до tidy data": practice/03-tidy-data.md
+      - "4. Чищення набору даних": practice/04-cleaning.md
+      - "5. Шкали вимірювання і частотний розподіл": practice/05-frequency.md
