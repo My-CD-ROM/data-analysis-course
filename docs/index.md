@@ -33,7 +33,7 @@ Notebook і VS Code — рівноцінні альтернативи для т�
 локальне середовище.
 
 Бібліотеки: NumPy, pandas, Matplotlib, SciPy, statsmodels — детальніше про
-кожну див. [Лекцію 1](lectures/01-vstup.md).
+кожну див. [Лекцію 0](lectures/00-vstup.md).
 
 ## Структура заняття
 
