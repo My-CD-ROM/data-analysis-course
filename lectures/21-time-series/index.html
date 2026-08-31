@@ -1,0 +1,3235 @@
+
+<!doctype html>
+<html lang="uk" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Матеріали лекцій і практичних занять курсу">
+      
+      
+        <meta name="author" content="Роман Боба">
+      
+      
+      
+        <link rel="prev" href="../20-monte-carlo/">
+      
+      
+        <link rel="next" href="../22-ml-intro/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>21. Часові ряди: структура і згладжування - Аналіз даних і математичне моделювання</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#21" class="md-skip">
+          Перейти до змісту
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Хедер">
+    <a href="../.." title="Аналіз даних і математичне моделювання" class="md-header__button md-logo" aria-label="Аналіз даних і математичне моделювання" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Аналіз даних і математичне моделювання
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              21. Часові ряди: структура і згладжування
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Темна тема"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Темна тема" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Світла тема"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Світла тема" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Пошук" placeholder="Пошук" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Шукати">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистити" aria-label="Очистити" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Пошук розпочато
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Вкладки" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Курс
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../00-vstup/" class="md-tabs__link">
+          
+  
+  
+  Лекції
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../practice/01-numpy-env/" class="md-tabs__link">
+          
+  
+  
+  Практичні
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../independent-study/" class="md-tabs__link">
+          
+  
+  
+  Самостійна робота
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Навігація" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Аналіз даних і математичне моделювання" class="md-nav__button md-logo" aria-label="Аналіз даних і математичне моделювання" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Аналіз даних і математичне моделювання
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Курс
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лекції
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лекції
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 1. Інструменти, дані та описова статистика
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 1. Інструменти, дані та описова статистика
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-vstup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0. Вступ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-numpy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. NumPy: масиви і векторизовані обчислення
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-pandas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. pandas: Series, DataFrame, індекс, відбір і обчислювані стовпці
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-tidy-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Шкали вимірювання і типи змінних
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-cleaning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Чищення даних: пропуски, дублікати, типи, кодування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-frequency-distribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Частотний розподіл однієї змінної: варіаційний ряд і гістограма
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-dispersion-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Міри розсіювання і форма розподілу
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-visualization-grouping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Принципи коректної візуалізації і типові спотворення
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-derived-variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Похідні змінні: дискретизація, масштабування, кодування категорій
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 2. Випадковість, розподіли і статистичний висновок
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 2. Випадковість, розподіли і статистичний висновок
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-probability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Випадкові події та ймовірність
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-distributions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Неперервні й дискретні розподіли: рівномірний, нормальний, експоненційний, біноміальний, Пуассона
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-clt-lln/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Закон великих чисел і центральна гранична теорема
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-confidence-intervals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Довірчі інтервали
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-hypothesis-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Перевірка статистичних гіпотез: логіка, p-value, помилки I і II роду
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-parametric-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Параметричні критерії порівняння середніх і дисперсій
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15-goodness-of-fit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Критерії узгодженості й перевірка нормальності
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 3. Залежності, регресія та математичні моделі
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 3. Залежності, регресія та математичні моделі
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../16-correlation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Кореляційний аналіз: Пірсон, Спірмен і обмеження застосування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../17-multiple-regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Множинна лінійна регресія: побудова, діагностика, інтерпретація
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../18-model-classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. Поняття математичної моделі й етапи моделювання
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../19-optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Задачі оптимізації та лінійне програмування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 4. Випадковість у моделюванні, часові ряди та машинне навчання
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 4. Випадковість у моделюванні, часові ряди та машинне навчання
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20-monte-carlo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    20. Генерація випадкових чисел і випадкових потоків
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    21. Часові ряди: структура і згладжування
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    21. Часові ряди: структура і згладжування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Зміст">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Зміст
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Що таке часовий ряд і чим він принципово відрізняється
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структура часового ряду: тренд, сезонність, залишок
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Візуалізація: перше "на око" виявлення тренду і сезонності
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Згладжування ковзним середнім
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#statsmodelstsaseasonalseasonal_decompose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Формальна декомпозиція: statsmodels.tsa.seasonal.seasonal_decompose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Прогнозування на кілька кроків уперед: огляд
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Типова пастка: "добре описує минуле" ≠ "надійний прогноз"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Типові помилки
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Підсумок
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22-ml-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    22. Машинне навчання: постановка задачі, навчальна і тестова вибірки, перенавчання, метрики якості (огляд)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Практичні
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Практичні
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 1. Інструменти, дані та описова статистика
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 1. Інструменти, дані та описова статистика
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/01-numpy-env/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Робоче середовище і NumPy: віртуальне середовище, ноутбук, масиви й векторизовані обчислення
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/02-pandas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. pandas: побудова DataFrame, індекс, відбір рядків і стовпців, обчислювані стовпці
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/03-tidy-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Приведення набору до tidy data; читання і запис таблиць (CSV, Excel, JSON)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/04-cleaning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Чищення набору: пропуски, дублікати, типи, узгодження категорій
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/05-frequency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Шкали вимірювання і частотний розподіл: класифікація набору, варіаційний ряд, гістограма
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/06-descriptive-stats/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Описова статистика: міри положення і розсіювання, describe, порівняння груп
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/07-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Візуалізація: Figure і Axes, підписи, гістограма, boxplot, діаграма розсіювання
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/08-groupby-pivot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Групування і зведені таблиці: groupby, агрегувальні функції, pivot_table, crosstab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/09-feature-transform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Перетворення даних: похідні змінні, дискретизація, масштабування, індикаторне кодування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 2. Випадковість, розподіли і статистичний висновок
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 2. Випадковість, розподіли і статистичний висновок
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/10-scipy-distributions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Неперервні розподіли в scipy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/11-clt-simulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Числові характеристики випадкової величини; закон великих чисел і ЦГТ симуляцією
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/12-confidence-intervals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Довірчі інтервали для середнього і частки
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/13-hypothesis-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Точкові оцінки та перевірка гіпотез: обчислення p-value, інтерпретація результату
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/14-t-test/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Параметричні критерії: t-критерій для однієї та двох вибірок, порівняння дисперсій
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/15-chi-square/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Критерії узгодженості й таблиці спряженості: критерій хі-квадрат
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 3. Залежності, регресія та математичні моделі
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 3. Залежності, регресія та математичні моделі
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/16-correlation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Кореляційний аналіз: діаграма розсіювання, коефіцієнти Пірсона і Спірмена, кореляційна матриця
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/17-simple-regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Проста лінійна регресія: побудова моделі, коефіцієнти, залишки, коефіцієнт детермінації
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/18-multiple-regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. Множинна лінійна регресія: відбір предикторів, інтерпретація коефіцієнтів, діагностика залишків
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/19-model-adequacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Класифікація математичних моделей: аналіз прикладів, перевірка адекватності моделі
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/20-linear-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    20. Лінійне програмування: постановка задачі, розв'язання засобами scipy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 4. Випадковість у моделюванні, часові ряди та машинне навчання
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 4. Випадковість у моделюванні, часові ряди та машинне навчання
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/21-monte-carlo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    21. Метод Монте-Карло: обчислення площі та інтеграла, оцінка сподівання, збіжність за кількістю випробувань
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/22-time-series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    22. Часовий ряд: побудова, ковзне середнє, виділення тренду і прогноз на кілька кроків
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Самостійна робота
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Самостійна робота
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Огляд і графік
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/module1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/module2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/module3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/module4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Зміст">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Зміст
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Що таке часовий ряд і чим він принципово відрізняється
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Структура часового ряду: тренд, сезонність, залишок
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Візуалізація: перше "на око" виявлення тренду і сезонності
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Згладжування ковзним середнім
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#statsmodelstsaseasonalseasonal_decompose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Формальна декомпозиція: statsmodels.tsa.seasonal.seasonal_decompose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Прогнозування на кілька кроків уперед: огляд
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Типова пастка: "добре описує минуле" ≠ "надійний прогноз"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Типові помилки
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Підсумок
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="21">Лекція 21. Часові ряди: структура і згладжування<a class="headerlink" href="#21" title="Permanent link">&para;</a></h1>
+<p><em>Модуль 4 відкрився методом Монте-Карло (Лекція 20) — способом оцінити
+детерміновану величину через багаторазове випадкове вибіркування; там
+порядок, у якому згенеровані випадкові числа, був цілком байдужий: усі
+<code>n</code> вибіркових точок можна перемішати в будь-якому порядку, і оцінка
+<code>π</code> чи інтеграла не зміниться ні на йоту. Це не випадковість, а
+властивість буквально кожного набору даних, з яким цей курс працював
+досі: вибірка зросту студентів (Лекція 5), пари "години підготовки —
+бал" (Лекція 16), навіть послідовність кидків кубика в симуляції
+Монте-Карло — усе це </em><em>i.i.d.</em><em>-дані (Лекції 11–15): незалежні,
+однаково розподілені спостереження, де порядок запису в масиві не несе
+жодної інформації. Ця лекція вперше за курс працює з даними
+принципово іншої природи — </em><em>часовим рядом</em><em>: послідовністю вимірювань
+однієї змінної в часі, де сусідні спостереження зазвичай залежні одне
+від одного, а сам порядок — не технічна деталь зберігання, а частина
+змісту даних. Переставити місяці місцями в ряду продажів чи
+температур — це не "той самий набір даних в іншому порядку", а зовсім
+інший, позбавлений сенсу ряд.</em></p>
+<h2 id="_1">Що таке часовий ряд і чим він принципово відрізняється<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p><strong>Механіка.</strong> Часовий ряд — послідовність значень <code>Y(t₁), Y(t₂), ...,
+Y(tₙ)</code> однієї змінної, виміряної в послідовні моменти часу через
+рівні (як правило) інтервали — щодня, щомісяця, щороку. У Python
+природне представлення — <code>pandas.Series</code> з індексом <code>DatetimeIndex</code>,
+згенерованим <code>pd.date_range()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s2">"2019-01-01"</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"MS"</span><span class="p">)</span>  <span class="c1"># 72 місяці = 6 років</span>
+<span class="n">month</span> <span class="o">=</span> <span class="n">dates</span><span class="o">.</span><span class="n">month</span>
+
+<span class="n">trend_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">900</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span>                     <span class="c1"># істинний тренд</span>
+<span class="n">seasonal_true</span> <span class="o">=</span> <span class="mi">250</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">((</span><span class="n">month</span> <span class="o">-</span> <span class="mi">7</span><span class="p">)</span> <span class="o">/</span> <span class="mi">12</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>         <span class="c1"># істинна сезонність, пік у липні</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dates</span><span class="p">))</span>                               <span class="c1"># істинний шум</span>
+
+<span class="n">visitors</span> <span class="o">=</span> <span class="n">trend_true</span> <span class="o">+</span> <span class="n">seasonal_true</span> <span class="o">+</span> <span class="n">noise</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">visitors</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"відвідувачі"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+</code></pre></div>
+<p><code>freq="MS"</code> — стандартний псевдонім частоти <code>pandas</code> "початок місяця"
+(month start); та сама сезонна формула <code>amplitude * cos((month - 7) /
+12 * 2π)</code>, що вже застосовувалась у Практиці 15 для кліматичних даних
+— тут вона моделює не температуру, а сезонний потік відвідувачів парку
+атракціонів: пік улітку (<code>cos(0) = 1</code> при <code>month = 7</code>), спад узимку.</p>
+<p><strong>Чому порядок тут принципово важливий — на відміну від усіх
+попередніх наборів курсу.</strong> Переставимо ті самі числа випадково і
+подивимось, що залишається, а що зникає:</p>
+<div class="highlight"><pre><span></span><code><span class="n">shuffled</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">visitors</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">visitors</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">shuffled</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>   <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">visitors</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="n">shuffled</span><span class="o">.</span><span class="n">std</span><span class="p">()))</span>      <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">visitors</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">shuffled</span><span class="p">)))</span>  <span class="c1"># True -- ті самі числа</span>
+</code></pre></div>
+<p>Середнє, дисперсія, навіть повний набір значень — ідентичні до й після
+перемішування: для будь-якої статистики з Лекцій 5–15 (x̄, s²,
+критерій хі-квадрат, кореляція Пірсона) <code>visitors</code> і <code>shuffled</code> дали б
+буквально однаковий результат, бо жодна з тих формул не дивиться на
+порядок запису. Але графік <code>shuffled</code> не показав би ні плавного
+зростання популярності парку за шість років, ні річного сезонного
+циклу — лише хаотичний зигзаг. Уся інформація про тренд і сезонність
+живе не в самих числах, а саме <strong>в порядку</strong>, в якому вони йдуть одне
+за одним — те, що часовий ряд додає понад "просто набір значень".</p>
+<p>Друга сторона того самого факту: сусідні спостереження часового ряду
+зазвичай <strong>залежні</strong> (корельовані) — місяць із високою кількістю
+відвідувачів здебільшого сусідить з іншим місяцем із високою
+кількістю (те саме сезонне піднесення чи той самий етап зростання
+популярності), а не є незалежним "новим кидком кубика" щоразу. Це
+пряма протилежність припущенню незалежності, на якому побудовані ЗВЧ і
+ЦГТ (Лекція 11) і всі критерії Лекцій 12–15 — застосовувати ці критерії
+до часового ряду напряму, ігноруючи залежність між сусідніми точками,
+означає порушувати їхню базову передумову.</p>
+<p><strong>Де використовується.</strong> Ціни акцій і курси валют, щоденна кількість
+відвідувачів сайту, щомісячний обсяг продажів, кількість пасажирів
+метро за годинами доби, температура, показники з датчиків
+промислового обладнання — будь-яке вимірювання, повторюване в часі
+для одного об'єкта чи процесу, за визначенням є часовим рядом, і саме
+тому аналіз часових рядів — окремий, добре розвинений розділ
+статистики, а не варіація вже пройденого матеріалу.</p>
+<h2 id="_2">Структура часового ряду: тренд, сезонність, залишок<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p><strong>Механіка.</strong> Класична модель розкладає часовий ряд на три складові:</p>
+<div class="highlight"><pre><span></span><code>Y(t) = T(t) + S(t) + R(t)      -- адитивна декомпозиція
+</code></pre></div>
+<ul>
+<li><strong>T(t), тренд</strong> — довгострокова спрямована зміна рівня ряду (стійке
+  зростання чи спадання впродовж багатьох періодів, без огляду на
+  короткочасні коливання).</li>
+<li><strong>S(t), сезонність</strong> — регулярне коливання з <strong>фіксованим періодом</strong>
+  (річний цикл із 12 місяцями, тижневий цикл із 7 днями, добовий
+  цикл із 24 годинами) — форма, що повторюється з періоду в період.</li>
+<li><strong>R(t), залишок (нерегулярна складова)</strong> — усе, що лишається після
+  віднімання тренду й сезонності: шум, випадкові відхилення, разові
+  події без регулярної структури.</li>
+</ul>
+<p>У прикладі вище всі три складові відомі наперед за побудовою —
+<code>trend_true</code>, <code>seasonal_true</code>, <code>noise</code> — точно так само, як у Лекції
+20 генерувались синтетичні набори з наперед відомими "правильними"
+коефіцієнтами регресії: маючи ряд зі свідомо заданою структурою, можна
+потім перевірити, чи метод декомпозиції (розділ нижче) справді
+відновлює ці складові, а не якісь довільні числа.</p>
+<pre class="mermaid"><code>flowchart LR
+    A["Часовий ряд Y(t)"] --&gt; B["Тренд T(t)&lt;br/&gt;довгострокова напрямлена зміна"]
+    A --&gt; C["Сезонність S(t)&lt;br/&gt;регулярне коливання,&lt;br/&gt;фіксований період"]
+    A --&gt; D["Залишок R(t)&lt;br/&gt;шум, випадкові відхилення"]
+    B --&gt; E["Y(t) = T(t) + S(t) + R(t)"]
+    C --&gt; E
+    D --&gt; E</code></pre>
+<p><strong>Мультиплікативна декомпозиція (оглядово).</strong> Якщо амплітуда сезонного
+коливання <strong>зростає пропорційно</strong> рівню ряду (сезонний розкид продажів
+магазину, що росте, стає в абсолютних числах дедалі більшим саме тому,
+що загальний обсяг продажів зростає), природніша модель —
+мультиплікативна:</p>
+<div class="highlight"><pre><span></span><code>Y(t) = T(t) · S(t) · R(t)      -- мультиплікативна декомпозиція
+</code></pre></div>
+<p>Тут <code>S(t)</code> і <code>R(t)</code> — множники навколо 1.0 (наприклад, <code>S = 1.15</code>
+означає "на 15% вище типового рівня цього періоду"), а не додаткові
+величини в тих самих одиницях, що <code>Y</code>. Обидва варіанти реалізовані в
+одній і тій самій функції <code>statsmodels</code> параметром <code>model=</code> (розділ
+нижче) — вибір між ними залежить від того, чи сезонний розкид у даних
+візуально сталий (адитивна) чи росте разом із рівнем ряду
+(мультиплікативна).</p>
+<p><strong>Де використовується.</strong> Практично будь-який реальний бізнесовий чи
+природний ряд — продажі роздрібної мережі (тренд зростання компанії +
+сезонність передсвяткових місяців), споживання електроенергії (тренд
+економічного розвитку регіону + сезонність опалювального сезону),
+кількість пасажирів авіакомпанії (тренд + сезонність відпускних
+місяців) — усі природно описуються саме цією трискладовою структурою.</p>
+<h2 id="_3">Візуалізація: перше "на око" виявлення тренду і сезонності<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p><strong>Механіка.</strong> Перш ніж рахувати будь-що формально, часовий ряд варто
+просто побудувати як лінійний графік — вісь X це час, вісь Y значення
+— і подивитись, чи форма підказує тренд і сезонний цикл на око, так
+само, як діаграма розсіювання (Лекція 16) підказувала форму зв'язку
+двох змінних перед обчисленням <code>r</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ts</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Місяць"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Кількість відвідувачів"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Щомісячна кількість відвідувачів парку атракціонів, 2019-2024"</span><span class="p">)</span>
+</code></pre></div>
+<p>На такому графіку одразу видно дві речі одночасно: загальну лінію,
+що повільно піднімається зліва праворуч (тренд зростання популярності
+парку з ≈500 до ≈900 відвідувачів на місяць за шість років), і
+регулярні "гірки" й "долини" всередині кожного року (сезонний пік
+улітку, спад узимку) — саме ті <code>trend_true</code> і <code>seasonal_true</code>, що були
+свідомо закладені в генерацію даних вище, тепер видно на графіку без
+жодного розрахунку.</p>
+<p><strong>Застереження з Лекції 7.</strong> Правило "вісь Y стовпчикової діаграми
+має починатися з нуля" там же явно позначене як таке, що найсуворіше
+застосовується до <strong>стовпчикових</strong> діаграм; для лінійного графіка
+зміни ряду в часі, де абсолютний нуль часто не має змістовного
+значення на масштабі графіка (як тут: "0 відвідувачів" не є
+природною точкою відліку для порівняння місяців між собою), обрізана
+вісь — прийнятний і навіть типовий вибір за умови, що це не
+спотворює порівняння сусідніх точок так, як спотворювало би
+стовпчики. Саме тому графіки часових рядів у цій лекції не
+форсують <code>ax.set_ylim(0, ...)</code>.</p>
+<h2 id="_4">Згладжування ковзним середнім<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p><strong>Механіка.</strong> Ковзне середнє (<code>rolling().mean()</code>) замінює кожну точку
+ряду середнім значенням за <strong>вікном</strong> сусідніх точок навколо неї (чи
+перед нею — залежно від налаштування, детальніше нижче):</p>
+<div class="highlight"><pre><span></span><code><span class="n">ts_ma3</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ts_ma12</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ts_ma36</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ts</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"оригінал"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ts_ma3</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"вікно = 3"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ts_ma12</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"вікно = 12"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ts_ma36</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"вікно = 36"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Ковзне середнє при різних розмірах вікна"</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Чому це прибирає короткочасний шум і виявляє тренд.</strong> Кожна точка
+<code>ts_ma_k[i]</code> — це вибіркове середнє <code>k</code> сусідніх спостережень, а
+вибіркове середнє за конструкцією має менший розкид навколо
+"справжнього" рівня, ніж окремі спостереження (та сама логіка <code>Var(x̄)
+= Var(X)/n</code> з Лекції 11, лише застосована до ковзного, а не одного
+фіксованого, вікна): випадкові відхилення <code>R(t)</code> окремих місяців
+здебільшого компенсують одне одного всередині вікна, а систематична
+складова <code>T(t) + S(t)</code>, що змінюється повільно (чи регулярно
+повторюється), лишається на місці.</p>
+<p><strong>Чому розмір вікна змінює результат — надто мале й надто велике
+вікно.</strong> На графіку вище три криві поводяться по-різному:</p>
+<ul>
+<li><strong><code>вікно = 3</code></strong> — надто мале порівняно з періодом сезонності (12
+  місяців): усередині трьох сусідніх місяців усереднюється лише
+  частина одного сезонного підйому чи спаду, тож у згладженій лінії
+  й досі помітне "тремтіння" — шум прибраний лише частково, а
+  сезонний цикл спотворено, не усунуто повністю.</li>
+<li><strong><code>вікно = 12</code></strong> — точно один сезонний період: усереднення за повний
+  рік автоматично гасить сезонну хвилю (кожне вікно містить рівно по
+  одному "місяцю кожного сезону", і сезонні відхилення взаємно
+  скасовуються), лишаючи практично чистий тренд — саме та крива,
+  що найближче повторює <code>trend_true</code>.</li>
+<li><strong><code>вікно = 36</code></strong> — надто велике: усереднення за три роки згладжує не
+  лише сезонність, а й реальну <strong>кривизну</strong> самого тренду (якщо
+  зростання популярності парку прискорювалось чи сповільнювалось у
+  певний рік, вікно в 36 місяців це "розмазує" на весь інтервал) —
+  частина справжньої структури втрачена, а не лише шум.</li>
+</ul>
+<p><strong>Лаг: <code>center=False</code> (за умовчанням) проти <code>center=True</code>.</strong> Другий,
+окремий від розміру вікна ефект — де саме "розташована" згладжена
+точка відносно вікна, з якого вона рахується:</p>
+<div class="highlight"><pre><span></span><code><span class="n">trailing</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>                <span class="c1"># center=False (умовчання)</span>
+<span class="n">centered</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>   <span class="c1"># вікно симетричне навколо точки</span>
+</code></pre></div>
+<p>За умовчанням (<code>center=False</code>) вікно <code>[t-11, ..., t]</code> "тягнеться
+позаду" точки <code>t</code> — значення в момент <code>t</code> це середнє за <strong>минулі</strong> 12
+місяців, а не за місяці навколо <code>t</code>. Наслідок — систематичний <strong>лаг</strong>:
+<code>trailing</code> реагує на реальний зламний момент тренду (наприклад, різке
+прискорення зростання) із запізненням приблизно в половину вікна,
+тому що поки останні кілька "нових", уже зрослих значень не потраплять
+у вікно повністю, середнє продовжує показувати старіший, нижчий рівень.
+<code>centered</code> (<code>center=True</code>) цього лагу не має — вікно симетричне, і
+згладжена точка відповідає своєму справжньому моменту часу — але для
+цього потрібні <code>k/2</code> майбутніх спостережень, яких у реальному часі,
+на момент останнього наявного місяця, просто ще нема. Тому:
+<code>center=True</code> — правильний вибір для <strong>ретроспективного</strong> аналізу й
+декомпозиції готового ряду (як у розділі нижче), а <code>center=False</code> —
+єдиний фізично можливий варіант, якщо згладжений ряд рахується "в
+реальному часі", крок за кроком, без доступу до майбутніх значень.</p>
+<pre class="mermaid"><code>flowchart LR
+    A["Замале вікно&lt;br/&gt;(менше за період сезонності)"] --&gt; A1["Шум прибрано частково,\nсезонна хвиля спотворена,\nне усунута"]
+    B["Вікно \"якраз\"&lt;br/&gt;(= період сезонності)"] --&gt; B1["Сезонність усереднюється\nдо нуля, тренд видно чітко"]
+    C["Завелике вікно&lt;br/&gt;(набагато більше періоду)"] --&gt; C1["Втрачається реальна\nкривизна тренду\n+ систематичний лаг"]</code></pre>
+<p><strong>Де використовується.</strong> Ковзне середнє за 7 днів для щоденних
+показників (гасить різницю "будній/вихідний"), за 12 місяців для
+щомісячних рядів (гасить річну сезонність), за 200 торгових днів у
+фінансовому аналізі (класична "200-денна ковзна середня" ціни акції,
+що виявляє довгостроковий тренд крізь щоденний шум цін) — вибір вікна
+завжди прив'язаний до відомого періоду сезонності чи бажаного
+горизонту згладжування, а не обирається довільним числом.</p>
+<h2 id="statsmodelstsaseasonalseasonal_decompose">Формальна декомпозиція: <code>statsmodels.tsa.seasonal.seasonal_decompose</code><a class="headerlink" href="#statsmodelstsaseasonalseasonal_decompose" title="Permanent link">&para;</a></h2>
+<p><strong>Механіка.</strong> Ручний підбір вікна ковзного середнього вище дає
+візуальне уявлення про тренд, але не виокремлює сезонну складову як
+окремий, явний об'єкт. <code>seasonal_decompose</code> робить це формально: за
+центрованим ковзним середнім (тим самим прийомом, що й вище) оцінює
+тренд, потім усереднює те, що залишилось після віднімання тренду, за
+кожним календарним періодом (кожним місяцем окремо для річної
+сезонності) — це і є сезонна складова, — а все, що лишається після
+віднімання обох, записує як залишок:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.tsa.seasonal</span><span class="w"> </span><span class="kn">import</span> <span class="n">seasonal_decompose</span>
+
+<span class="n">decomposition</span> <span class="o">=</span> <span class="n">seasonal_decompose</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"additive"</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">trend_hat</span> <span class="o">=</span> <span class="n">decomposition</span><span class="o">.</span><span class="n">trend</span>
+<span class="n">seasonal_hat</span> <span class="o">=</span> <span class="n">decomposition</span><span class="o">.</span><span class="n">seasonal</span>
+<span class="n">resid_hat</span> <span class="o">=</span> <span class="n">decomposition</span><span class="o">.</span><span class="n">resid</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">trend_hat</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">seasonal_hat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>                 <span class="c1"># один повний річний цикл</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">resid_hat</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+</code></pre></div>
+<p><code>period=12</code> — довжина одного сезонного циклу у <strong>кроках ряду</strong>, а не
+в місяцях чи днях абстрактно: для щомісячних даних із річною
+сезонністю це 12, для щоденних даних із тижневою сезонністю це 7.
+<code>model="additive"</code> відповідає моделі <code>Y = T + S + R</code> з розділу вище;
+<code>model="multiplicative"</code> перемикає на добуткову форму.</p>
+<p><strong>Інтерпретація результату — і пряма перевірка на синтетичному
+прикладі.</strong> Оскільки <code>ts</code> у цій лекції побудований із наперед
+відомими <code>trend_true</code> і <code>seasonal_true</code>, можна прямо порівняти:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">trend_hat</span> <span class="o">-</span> <span class="n">trend_true</span><span class="p">)))</span>     <span class="c1"># відхилення оціненого тренду від істинного</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">seasonal_hat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">seasonal_true</span><span class="p">[:</span><span class="mi">12</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">resid_hat</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>                       <span class="c1"># порівняти з істинним std шуму = 40</span>
+</code></pre></div>
+<p><code>trend_hat</code> (за краями <code>NaN</code> — центроване вікно на 12 точок вимагає по
+6 сусідів з обох боків, яких на самому початку й кінці ряду просто
+нема, той самий ефект <code>centered</code> ковзного середнього з розділу вище)
+близько повторює <code>trend_true</code>; <code>seasonal_hat</code> — той самий синусоїдний
+профіль, що й <code>seasonal_true</code>, повторюваний щороку; а
+<code>resid_hat.dropna().std()</code> виходить близько до <code>40</code> — саме того
+розкиду шуму, який був явно закладений у генерацію. Це той самий
+принцип перевірки методу на даних із наперед відомою відповіддю, що й
+у синтетичних наборах Лекції 20: якщо декомпозиція не відновлює
+закладені компоненти на такому контрольованому прикладі, довіряти їй
+на реальних даних, де правильної відповіді ніхто не знає, немає
+підстав.</p>
+<p><strong>Де використовується.</strong> Розділення попиту на "базовий рівень +
+сезонний ефект + випадкове відхилення" — стандартний перший крок
+будь-якого планування запасів роздрібної мережі (скільки товару
+тримати на складі в грудні понад типовий місяць), аналізу споживання
+електроенергії (яка частка зимового піку — це справжнє зростання
+економіки регіону, а яка — звичний сезонний ефект опалення), контролю
+якості виробничого процесу (чи відхилення показника цього тижня — це
+шум у межах звичного, чи вихід за межі того, що пояснюється
+тренд+сезонність).</p>
+<h2 id="_5">Прогнозування на кілька кроків уперед: огляд<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p><strong>Механіка.</strong> Маючи розкладений ряд, найпростіший спосіб зазирнути в
+майбутнє — продовжити тренд формулою, а до нього додати типовий
+сезонний ефект відповідного календарного періоду:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">linregress</span>
+
+<span class="n">trend_clean</span> <span class="o">=</span> <span class="n">trend_hat</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trend_clean</span><span class="p">))</span>
+<span class="n">fit</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">trend_clean</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>              <span class="c1"># той самий linregress, що в Лекції 16</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fit</span><span class="o">.</span><span class="n">slope</span><span class="p">,</span> <span class="n">fit</span><span class="o">.</span><span class="n">intercept</span><span class="p">)</span>
+
+<span class="n">n_ahead</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">x_future</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trend_clean</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">trend_clean</span><span class="p">)</span> <span class="o">+</span> <span class="n">n_ahead</span><span class="p">)</span>
+<span class="n">trend_forecast</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">intercept</span> <span class="o">+</span> <span class="n">fit</span><span class="o">.</span><span class="n">slope</span> <span class="o">*</span> <span class="n">x_future</span>
+
+<span class="c1"># типовий сезонний ефект для кожного календарного місяця (усереднений за роками)</span>
+<span class="n">seasonal_by_month</span> <span class="o">=</span> <span class="n">seasonal_hat</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">seasonal_hat</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">month</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">future_dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">MonthBegin</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+                              <span class="n">periods</span><span class="o">=</span><span class="n">n_ahead</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"MS"</span><span class="p">)</span>
+<span class="n">seasonal_forecast</span> <span class="o">=</span> <span class="n">seasonal_by_month</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">future_dates</span><span class="o">.</span><span class="n">month</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">forecast</span> <span class="o">=</span> <span class="n">trend_forecast</span> <span class="o">+</span> <span class="n">seasonal_forecast</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">forecast</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">future_dates</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+</code></pre></div>
+<p>Це пряме продовження Лекції 16: <code>linregress</code> тут підбирає пряму лінію
+не для пари довільних змінних <code>x, y</code>, а для тренду в часі — <code>x</code> це
+просто номер кроку від початку ряду, <code>y</code> — оцінений тренд. Додавання
+<code>seasonal_forecast</code> — це той самий тип сезонного коефіцієнта, що вже
+оцінено <code>seasonal_decompose</code>, лише перенесений на майбутні календарні
+місяці за їхнім номером.</p>
+<p><strong>"Наївні" прогнози як базовий рівень порівняння.</strong> Перш ніж вірити
+складнішому прогнозу з тренду, варто порівняти його з найпростішими
+можливими правилами, які часто на диво важко побити:</p>
+<div class="highlight"><pre><span></span><code><span class="n">naive_last_value</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>                  <span class="c1"># прогноз = останнє відоме значення</span>
+<span class="n">naive_seasonal</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">12</span><span class="p">:</span><span class="o">-</span><span class="mi">12</span> <span class="o">+</span> <span class="n">n_ahead</span><span class="p">]</span>     <span class="c1"># прогноз = те саме значення рік тому</span>
+</code></pre></div>
+<p>Якщо складніший прогноз (тренд + сезонність) не точніший за ці
+наївні правила на історичних даних, це сигнал, що додаткова
+складність моделі не виправдана.</p>
+<p><strong>Що лишається за межами курсу.</strong> Продовження прямої лінії й наївні
+правила — найпростіші з можливих підходів; реальні прогнозні системи
+здебільшого використовують складніші класи моделей — <strong>ARIMA</strong>
+(авторегресійні моделі, що явно враховують залежність поточного
+значення від кількох попередніх) та <strong>експоненційне згладжування</strong>
+(зокрема метод Хольта-Вінтерса, що комбінує тренд і сезонність з
+експоненційно зменшуваною вагою для старіших спостережень). Обидва
+клас моделей — за межами цього курсу; тут важливо лише знати, що вони
+існують і що саме вони, а не пряма екстраполяція, — стандартний
+інструмент, коли прогноз потрібен серйозно, а не оглядово.</p>
+<h2 id="_6">Типова пастка: "добре описує минуле" ≠ "надійний прогноз"<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>Пряма лінія чи ковзне середнє, підібрані на історичних даних, за
+конструкцією добре узгоджуються саме з тими даними, на яких їх
+підбирали — це не підстава вважати прогноз на майбутні періоди
+надійним. Це буквально те саме застереження щодо екстраполяції, що
+Лекція 16 сформулювала для простої регресії: рівняння <code>y = b0 + b1·x</code>,
+підібране методом найменших квадратів, коректне для <code>x</code> <strong>всередині</strong>
+спостереженого діапазону, а підстановка <code>x</code> далеко за його межами —
+екстраполяція без жодної гарантії, що залежність лишається тією ж
+формою.</p>
+<p>Для часового ряду це застереження ще гостріше: "діапазон" тут — це
+не просто числовий інтервал, а <strong>сам час</strong>, і межа завжди рухається
+вперед. Тренд, що добре описував шість років історії парку атракціонів,
+міг узагалі не передбачити подію, якої в цих шести роках просто не
+було — закриття на ремонт, появу конкурента поруч, зміну економічної
+ситуації в регіоні. Пряма лінія тренду не "знає" про жодну з цих
+можливостей: вона механічно продовжує той самий нахил <code>fit.slope</code>,
+що спостерігався в минулому, і чим далі прогноз заходить у майбутнє,
+тим менше підстав вважати цей нахил і надалі чинним. Практичний
+висновок: прогноз на 1–2 кроки вперед зазвичай надійніший, ніж на
+12–24 кроки, і будь-який прогноз варто супроводжувати явним
+застереженням про горизонт, на якому він ще має сенс, а не подавати
+одне число як точну відповідь.</p>
+<pre class="mermaid"><code>flowchart LR
+    A["Часовий ряд"] --&gt; B["Візуалізація\n(лінійний графік)"]
+    B --&gt; C["Декомпозиція\nтренд / сезонність / залишок"]
+    C --&gt; D["Згладжування\nковзне середнє"]
+    D --&gt; E["Прогноз на кілька\nкроків уперед"]
+    E -.-&gt;|"екстраполяція:\nнадійність спадає\nз горизонтом"| F["Межі довіри до прогнозу"]</code></pre>
+<h2 id="_7">Типові помилки<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p><strong>Застосування критеріїв Лекцій 12–15 до часового ряду без урахування
+залежності між сусідніми точками.</strong> Довірчі інтервали й перевірка
+гіпотез побудовані на припущенні незалежних спостережень (Лекція 11);
+сусідні точки часового ряду зазвичай залежні за побудовою — пряме
+застосування тих формул до часового ряду систематично дає занадто
+вузькі (надто оптимістичні) довірчі інтервали.</p>
+<p><strong>Вибір розміру вікна ковзного середнього "на око", без урахування
+періоду сезонності.</strong> Як показано вище, вікно менше за період
+залишає сезонну хвилю в згладженому ряду, а вікно, що набагато
+перевищує період, губить реальну кривизну тренду — розумний
+початковий вибір вікна — саме довжина одного сезонного циклу.</p>
+<p><strong>Плутанина <code>center=True</code> і <code>center=False</code> при порівнянні згладженого
+ряду з оригіналом.</strong> Незауважений лаг трейлінгового (<code>center=False</code>)
+ковзного середнього може виглядати як "модель відстає від реальності"
+— хоча це очікувана й пояснювана властивість вибраного налаштування,
+а не помилка методу.</p>
+<p><strong>Адитивна декомпозиція там, де сезонна амплітуда явно росте разом з
+рівнем ряду.</strong> Якщо на графіку видно, що сезонні "гірки" стають дедалі
+вищими в абсолютних числах у міру зростання загального рівня —
+ознака, що потрібна мультиплікативна модель (<code>model="multiplicative"</code>)
+чи логарифмічне перетворення ряду перед адитивною декомпозицією.</p>
+<p><strong>Довіра до прогнозу на далекий горизонт без застереження.</strong>
+Розглянуто в розділі вище: пряма лінія тренду, що чудово описує
+історичні шість років, не має жодної вбудованої гарантії щодо сьомого
+й восьмого року — особливо якщо в майбутньому можлива подія, що не
+мала аналогів у навчальних даних.</p>
+<h2 id="_8">Підсумок<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Часовий ряд — послідовність вимірювань однієї змінної в часі, де
+  <strong>порядок</strong> несе інформацію, а сусідні спостереження зазвичай
+  залежні; це принципова відмінність від i.i.d.-вибірок Лекцій 11–15,
+  де порядок запису байдужий для будь-якої статистики.</li>
+<li>Класична адитивна декомпозиція <code>Y(t) = T(t) + S(t) + R(t)</code> розділяє
+  ряд на тренд (довгострокова напрямлена зміна), сезонність (регулярне
+  коливання з фіксованим періодом) і залишок (шум); мультиплікативна
+  форма <code>Y = T · S · R</code> — альтернатива, коли сезонна амплітуда
+  масштабується разом із рівнем ряду.</li>
+<li>Лінійний графік ряду — перший крок аналізу "на око", з окремим
+  застереженням Лекції 7: обрізана вісь Y для лінійного графіка часу
+  не так небезпечна, як для стовпчикової діаграми.</li>
+<li>Ковзне середнє (<code>rolling().mean()</code>) згладжує короткочасний шум,
+  усереднюючи сусідні точки; розмір вікна — компроміс (замале —
+  лишає шум і сезонність, завелике — губить реальну кривизну тренду
+  й додає лаг), а <code>center=True</code>/<code>center=False</code> визначає, чи є в
+  результаті систематичне запізнення відносно оригіналу.</li>
+<li><code>statsmodels.tsa.seasonal.seasonal_decompose</code> формалізує розділення
+  на тренд/сезонність/залишок; на синтетичному прикладі з наперед
+  відомими компонентами перевірено, що метод дійсно відновлює їх, а
+  не довільні числа — той самий принцип перевірки, що й у Лекції 20.</li>
+<li>Прогноз на кілька кроків — оглядово: продовження тренду через
+  <code>linregress</code> (Лекція 16) плюс типовий сезонний ефект, або наївні
+  правила (останнє значення, той самий період минулого року) як
+  базовий рівень порівняння; ARIMA й експоненційне згладжування —
+  стандартні складніші підходи, лише названі, за межами курсу.</li>
+<li>Головна пастка — плутати "модель добре описує історичні дані" з
+  "прогноз на майбутнє надійний": це те саме застереження щодо
+  екстраполяції, що й у простій регресії (Лекція 16), тільки гостріше,
+  бо межа спостереженого діапазону в часовому ряді щоразу рухається
+  вперед.</li>
+</ul>
+<p>Наступна лекція (Лекція 22) переходить до зовсім іншого класу задач —
+машинного навчання: постановки задачі, поділу на навчальну й тестову
+вибірки, перенавчання, метрик якості. Для часових рядів існують і
+власні підходи машинного навчання (перетворення попередніх значень
+ряду на ознаки для регресії чи градієнтного бустингу, рекурентні
+мережі для довших залежностей) — але це вже інструментарій Лекції 22,
+застосований до задачі цієї лекції, а не тема, яку розкриває вона сама.</p>
+<p><strong>Практика до цієї лекції:</strong> <a href="../../practice/22-time-series/">Практика 22. Часовий ряд: побудова, ковзне середнє, виділення тренду і прогноз на кілька кроків</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Повернутись нагору
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "content.code.copy", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0456\u0439\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u0421\u043a\u043e\u043f\u0456\u044e\u0432\u0430\u0442\u0438 \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0429\u0435 1 \u0437\u0431\u0456\u0433 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.more.other": "\u0429\u0435 # \u0437\u0431\u0456\u0433\u0456\u0432 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.none": "\u0417\u0431\u0456\u0433\u0456\u0432 \u043d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0437\u0431\u0456\u0433", "search.result.other": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e # \u0437\u0431\u0456\u0433\u0456\u0432", "search.result.placeholder": "\u0420\u043e\u0437\u043f\u043e\u0447\u043d\u0456\u0442\u044c \u043f\u0438\u0441\u0430\u0442\u0438 \u0434\u043b\u044f \u043f\u043e\u0448\u0443\u043a\u0443", "search.result.term.missing": "\u041d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e \u0437\u0430\u043f\u0438\u0442\u0443", "select.version": "\u041e\u0431\u0440\u0430\u0442\u0438 \u0432\u0435\u0440\u0441\u0456\u044e"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

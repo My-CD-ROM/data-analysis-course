@@ -1,0 +1,3369 @@
+
+<!doctype html>
+<html lang="uk" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Матеріали лекцій і практичних занять курсу">
+      
+      
+        <meta name="author" content="Роман Боба">
+      
+      
+      
+        <link rel="prev" href="../17-multiple-regression/">
+      
+      
+        <link rel="next" href="../19-optimization/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>18. Поняття математичної моделі й етапи моделювання - Аналіз даних і математичне моделювання</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#18" class="md-skip">
+          Перейти до змісту
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Хедер">
+    <a href="../.." title="Аналіз даних і математичне моделювання" class="md-header__button md-logo" aria-label="Аналіз даних і математичне моделювання" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Аналіз даних і математичне моделювання
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              18. Поняття математичної моделі й етапи моделювання
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Темна тема"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Темна тема" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Світла тема"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Світла тема" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Пошук" placeholder="Пошук" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Шукати">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистити" aria-label="Очистити" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Пошук розпочато
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Вкладки" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Курс
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../00-vstup/" class="md-tabs__link">
+          
+  
+  
+  Лекції
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../practice/01-numpy-env/" class="md-tabs__link">
+          
+  
+  
+  Практичні
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../independent-study/" class="md-tabs__link">
+          
+  
+  
+  Самостійна робота
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Навігація" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Аналіз даних і математичне моделювання" class="md-nav__button md-logo" aria-label="Аналіз даних і математичне моделювання" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Аналіз даних і математичне моделювання
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Курс
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лекції
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лекції
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 1. Інструменти, дані та описова статистика
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 1. Інструменти, дані та описова статистика
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-vstup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0. Вступ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-numpy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. NumPy: масиви і векторизовані обчислення
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-pandas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. pandas: Series, DataFrame, індекс, відбір і обчислювані стовпці
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-tidy-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Шкали вимірювання і типи змінних
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-cleaning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Чищення даних: пропуски, дублікати, типи, кодування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-frequency-distribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Частотний розподіл однієї змінної: варіаційний ряд і гістограма
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-dispersion-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Міри розсіювання і форма розподілу
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-visualization-grouping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Принципи коректної візуалізації і типові спотворення
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-derived-variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Похідні змінні: дискретизація, масштабування, кодування категорій
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 2. Випадковість, розподіли і статистичний висновок
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 2. Випадковість, розподіли і статистичний висновок
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-probability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Випадкові події та ймовірність
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-distributions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Неперервні й дискретні розподіли: рівномірний, нормальний, експоненційний, біноміальний, Пуассона
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-clt-lln/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Закон великих чисел і центральна гранична теорема
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-confidence-intervals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Довірчі інтервали
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-hypothesis-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Перевірка статистичних гіпотез: логіка, p-value, помилки I і II роду
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-parametric-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Параметричні критерії порівняння середніх і дисперсій
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15-goodness-of-fit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Критерії узгодженості й перевірка нормальності
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 3. Залежності, регресія та математичні моделі
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 3. Залежності, регресія та математичні моделі
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../16-correlation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Кореляційний аналіз: Пірсон, Спірмен і обмеження застосування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../17-multiple-regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Множинна лінійна регресія: побудова, діагностика, інтерпретація
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. Поняття математичної моделі й етапи моделювання
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. Поняття математичної моделі й етапи моделювання
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Зміст">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Зміст
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Що таке математична модель
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Етапи математичного моделювання
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Класифікація математичних моделей: незалежні осі
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Класифікація математичних моделей: незалежні осі">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Детерміновані та стохастичні моделі
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Балансові моделі
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Оптимізаційні моделі
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Імітаційні моделі
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Статичні та динамічні моделі — ще одна вісь
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Класифікаційна схема
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Верифікація і валідація
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Адекватність моделі
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Типові помилки
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Підсумок
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../19-optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Задачі оптимізації та лінійне програмування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 4. Випадковість у моделюванні, часові ряди та машинне навчання
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 4. Випадковість у моделюванні, часові ряди та машинне навчання
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20-monte-carlo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    20. Генерація випадкових чисел і випадкових потоків
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21-time-series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    21. Часові ряди: структура і згладжування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22-ml-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    22. Машинне навчання: постановка задачі, навчальна і тестова вибірки, перенавчання, метрики якості (огляд)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Практичні
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Практичні
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 1. Інструменти, дані та описова статистика
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 1. Інструменти, дані та описова статистика
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/01-numpy-env/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Робоче середовище і NumPy: віртуальне середовище, ноутбук, масиви й векторизовані обчислення
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/02-pandas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. pandas: побудова DataFrame, індекс, відбір рядків і стовпців, обчислювані стовпці
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/03-tidy-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Приведення набору до tidy data; читання і запис таблиць (CSV, Excel, JSON)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/04-cleaning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Чищення набору: пропуски, дублікати, типи, узгодження категорій
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/05-frequency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Шкали вимірювання і частотний розподіл: класифікація набору, варіаційний ряд, гістограма
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/06-descriptive-stats/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Описова статистика: міри положення і розсіювання, describe, порівняння груп
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/07-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Візуалізація: Figure і Axes, підписи, гістограма, boxplot, діаграма розсіювання
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/08-groupby-pivot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Групування і зведені таблиці: groupby, агрегувальні функції, pivot_table, crosstab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/09-feature-transform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Перетворення даних: похідні змінні, дискретизація, масштабування, індикаторне кодування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 2. Випадковість, розподіли і статистичний висновок
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 2. Випадковість, розподіли і статистичний висновок
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/10-scipy-distributions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Неперервні розподіли в scipy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/11-clt-simulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Числові характеристики випадкової величини; закон великих чисел і ЦГТ симуляцією
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/12-confidence-intervals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Довірчі інтервали для середнього і частки
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/13-hypothesis-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Точкові оцінки та перевірка гіпотез: обчислення p-value, інтерпретація результату
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/14-t-test/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Параметричні критерії: t-критерій для однієї та двох вибірок, порівняння дисперсій
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/15-chi-square/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Критерії узгодженості й таблиці спряженості: критерій хі-квадрат
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 3. Залежності, регресія та математичні моделі
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 3. Залежності, регресія та математичні моделі
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/16-correlation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Кореляційний аналіз: діаграма розсіювання, коефіцієнти Пірсона і Спірмена, кореляційна матриця
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/17-simple-regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Проста лінійна регресія: побудова моделі, коефіцієнти, залишки, коефіцієнт детермінації
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/18-multiple-regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. Множинна лінійна регресія: відбір предикторів, інтерпретація коефіцієнтів, діагностика залишків
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/19-model-adequacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Класифікація математичних моделей: аналіз прикладів, перевірка адекватності моделі
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/20-linear-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    20. Лінійне програмування: постановка задачі, розв'язання засобами scipy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 4. Випадковість у моделюванні, часові ряди та машинне навчання
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 4. Випадковість у моделюванні, часові ряди та машинне навчання
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/21-monte-carlo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    21. Метод Монте-Карло: обчислення площі та інтеграла, оцінка сподівання, збіжність за кількістю випробувань
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/22-time-series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    22. Часовий ряд: побудова, ковзне середнє, виділення тренду і прогноз на кілька кроків
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Самостійна робота
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Самостійна робота
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Огляд і графік
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/module1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/module2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/module3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/module4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Зміст">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Зміст
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Що таке математична модель
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Етапи математичного моделювання
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Класифікація математичних моделей: незалежні осі
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Класифікація математичних моделей: незалежні осі">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Детерміновані та стохастичні моделі
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Балансові моделі
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Оптимізаційні моделі
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Імітаційні моделі
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Статичні та динамічні моделі — ще одна вісь
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Класифікаційна схема
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Верифікація і валідація
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Адекватність моделі
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Типові помилки
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Підсумок
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="18">Лекція 18. Поняття математичної моделі й етапи моделювання<a class="headerlink" href="#18" title="Permanent link">&para;</a></h1>
+<p><em>Лекції 16–17 будували конкретні статистичні моделі — кореляційну
+структуру між двома змінними та регресійне рівняння, що передбачає
+одну змінну через інші. Ця лекція робить крок назад від конкретної
+формули до загального питання: що взагалі означає "побудувати
+математичну модель", з яких етапів складається цей процес і за якими
+ознаками моделі різняться між собою. Словник цієї лекції —
+детермінована/стохастична, балансова/оптимізаційна/імітаційна,
+верифікація/валідація, адекватність — не абстрактна класифікація для
+самої класифікації: це мова, якою описуватиметься кожна наступна тема
+курсу. Оптимізаційні моделі, виділені тут як окремий тип, детально
+розглядаються в Лекції 19; імітаційні моделі — у Лекції 20 через метод
+Монте-Карло; моделі часових рядів (Лекція 21) — це конкретний приклад
+динамічної моделі в термінах, введених тут. А регресія з Лекцій 16–17 —
+приклад статистичної моделі, чия адекватність перевіряється саме тими
+інструментами, що вже введені в Лекції 15 (критерій хі-квадрат, тест на
+нормальність).</em></p>
+<h2 id="_1">Що таке математична модель<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p><strong>Механіка визначення.</strong> Математична модель — це спрощене формальне
+представлення реальної системи чи процесу за допомогою математичних
+об'єктів:</p>
+<ul>
+<li><strong>змінні</strong> — величини, що описують стан системи й можуть змінюватися
+  (температура, обсяг продажів, координата тіла);</li>
+<li><strong>параметри</strong> — сталі, що налаштовують модель під конкретний випадок
+  (коефіцієнт тертя, ставка податку, середньорічна температура міста);</li>
+<li><strong>рівняння чи нерівності</strong> — формальні зв'язки між змінними й
+  параметрами (закон руху, рівняння балансу, обмеження ресурсу);</li>
+<li><strong>область застосовності</strong> — умови, за яких ці зв'язки вважаються
+  чинними (діапазон швидкостей, часовий горизонт, розмір вибірки).</li>
+</ul>
+<p>Побудувати модель — це замінити складну, багатофакторну реальну систему
+цим набором математичних об'єктів так, щоб зв'язки між об'єктами
+відтворювали ті аспекти поведінки реальної системи, які цікавлять
+дослідника, і при цьому лишались достатньо простими, щоб з ними можна
+було працювати математично чи обчислювально.</p>
+<p><strong>Чому "спрощене" — не недолік, а необхідна умова.</strong> Модель, що
+намагається врахувати абсолютно все (кожну молекулу повітря при
+розрахунку траєкторії м'яча, кожного окремого клієнта при розрахунку
+попиту на товар), стає або математично нерозв'язною, або настільки
+складною, що втрачає саму цінність моделі — здатність зробити систему
+зрозумілою і придатною для розрахунків. У статистиці й прикладній
+математиці широко відома ідея: жодна модель не описує реальність
+абсолютно точно, і сенс моделі — не в буквальній, фотографічній
+правдивості, а в тому, наскільки вона <strong>корисна</strong> для конкретної мети,
+з якою її будували (цю думку часто пов'язують зі статистиком Джорджем
+Боксом, хоча точне формулювання варіюється залежно від джерела —
+головне тут сама ідея, а не точне цитування). Модель вільного падіння
+<code>h = h0 - 0.5·g·t²</code> ігнорує опір повітря, форму тіла, обертання Землі —
+і саме тому вона проста й придатна для розрахунку "на калькуляторі";
+для падіння камʼя з невеликої висоти це прекрасно працює, для падіння
+листка папера — вже ні. Це не робить модель "неправильною" в
+абсолютному сенсі: вона правильна <strong>в межах тієї області
+застосовності</strong>, для якої знехтувані фактори справді нехтовно малі.</p>
+<p><strong>Компроміс точність–простота.</strong> Будь-яке рішення при побудові моделі —
+що включити, а що знехтувати — це точка на шкалі між гранично простою
+моделлю (мало параметрів, легко зрозуміти й перевірити) і гранично
+детальною (потенційно точніша, але кожен додатковий параметр потрібно
+оцінити з обмежених даних, а отже вносить додаткову невизначеність).
+Немає єдиної "правильної" точки на цій шкалі — вибір залежить від мети
+моделювання: модель для швидкої оцінки порядку величини має бути іншою,
+ніж модель для точного інженерного розрахунку.</p>
+<h2 id="_2">Етапи математичного моделювання<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>Побудова моделі — це не одноразовий акт "написати формулу", а
+послідовність кроків, і, що принципово, ця послідовність — <strong>цикл</strong>, а
+не пряма лінія: результат перевірки моделі на реальних даних часто
+змушує повернутися й переглянути попередні кроки, а не просто "здати
+готову модель".</p>
+<pre class="mermaid"><code>flowchart TD
+    A["1. Постановка задачі:\nяке питання має відповісти модель?"] --&gt; B["2. Формалізація:\nвибір змінних, гіпотез, обмежень"]
+    B --&gt; C["3. Побудова моделі:\nвибір рівнянь / структури"]
+    C --&gt; D["4. Реалізація:\nрозв'язання — аналітичне або чисельне"]
+    D --&gt; E["5. Верифікація:\nчи реалізація відповідає задуманій структурі?"]
+    E --&gt; F["6. Валідація:\nчи модель узгоджується з реальними даними?"]
+    F --&gt; G{"Модель\nадекватна?"}
+    G --&gt;|"так"| H["7. Аналіз і використання\nрезультатів"]
+    G --&gt;|"ні, суттєві розбіжності"| B</code></pre>
+<p><strong>Механіка кожного кроку.</strong></p>
+<ol>
+<li><strong>Постановка задачі.</strong> Формулювання питання, на яке модель повинна
+   відповісти, і мети моделювання (прогноз конкретного значення?
+   пошук найкращого рішення? розуміння механізму явища?). Без чіткого
+   питання неможливо оцінити, чи модель "хороша" — хороша для чого?</li>
+<li><strong>Формалізація.</strong> Переклад словесної задачі на мову математики:
+   що вважати змінною, що — сталим параметром, які припущення
+   прийнятні (наприклад, "температура протягом місяця коливається
+   навколо середньої за синусоїдальним законом" — це вже конкретна
+   формалізована гіпотеза, а не просто "буває тепліше, буває
+   холодніше").</li>
+<li><strong>Побудова моделі.</strong> Вибір конкретної математичної структури, що
+   реалізує формалізовані на попередньому кроці припущення: лінійне
+   рівняння, система нерівностей, диференціальне рівняння, алгоритм
+   імітації. Саме на цьому кроці ухвалюється те, що обговорюється далі
+   в цій лекції — до якого класу (детермінована/стохастична,
+   балансова/оптимізаційна/імітаційна) належатиме модель.</li>
+<li><strong>Реалізація.</strong> Фактичне отримання розв'язку: аналітично, закритою
+   формулою (коли це можливо), або чисельно й програмно — коли
+   аналітичного розв'язку немає або він занадто складний для ручного
+   виведення. Більшість моделей цього курсу, від регресії до
+   оптимізації й Монте-Карло, реалізуються саме програмно.</li>
+<li><strong>Верифікація.</strong> Перевірка, що реалізація на кроці 4 <strong>відповідає</strong>
+   структурі, задуманій на кроці 3 — це запитання "чи немає помилки в
+   коді чи в обчисленні", а не "чи модель хороша". Детальніше — окремо
+   нижче.</li>
+<li><strong>Валідація.</strong> Перевірка, що модель, реалізована правильно (тобто
+   що пройшла верифікацію), <strong>узгоджується з реальністю</strong> — з
+   фактичними спостереженнями чи вимірюваннями. Це геть інше питання,
+   ніж верифікація, і плутанина цих двох понять — одна з
+   найпоширеніших помилок, розглянута нижче окремо.</li>
+<li><strong>Аналіз і використання результатів.</strong> Якщо валідація підтвердила
+   прийнятну відповідність реальності — інтерпретація результатів
+   моделі для відповіді на питання, поставлене на кроці 1: прогноз,
+   рекомендація рішення, пояснення механізму.</li>
+<li><strong>Уточнення моделі.</strong> Якщо валідація виявляє суттєві й систематичні
+   розбіжності між моделлю та реальністю — це не кінець процесу, а
+   сигнал повернутися на крок формалізації (переглянути припущення,
+   додати знехтуваний фактор, змінити структуру рівнянь) і пройти цикл
+   знову. Саме тому на діаграмі вище стрілка від "ні" веде назад до
+   кроку 2, а не до аварійного завершення: моделювання — ітеративний
+   процес, і рідко яка модель стає остаточною з першої спроби.</li>
+</ol>
+<h2 id="_3">Класифікація математичних моделей: незалежні осі<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>Моделі класифікують за кількома <strong>незалежними</strong> ознаками одночасно — це
+принципово: питання "чи є в моделі випадковість" і питання "яка мета
+моделі: баланс, оптимум чи симуляція" стосуються геть різних аспектів
+моделі, і відповідь на одне не визначає відповідь на інше. Та сама
+модель може бути одночасно стохастичною, орієнтованою на симуляцію й
+динамічною — це не суперечність, а три різні характеристики одного й
+того самого об'єкта.</p>
+<h3 id="_4">Детерміновані та стохастичні моделі<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p><strong>Механіка.</strong> Детермінована модель — та, у якій <strong>немає випадковості</strong>:
+за одним і тим самим набором вхідних значень модель завжди видає рівно
+той самий результат. Стохастична модель — та, у якій випадковість
+є частиною самої структури моделі (випадкова величина, розподіл
+ймовірностей): той самий набір "вхідних умов" може породжувати різні
+конкретні результати від запуску до запуску, і модель описує не одне
+число, а розподіл можливих результатів.</p>
+<p>Приклад — рух тіла за законами Ньютона (детермінована модель):</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">height</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">h0</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mf">9.8</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Детермінована модель: положення тіла в момент t обчислюється</span>
+<span class="sd">    однією формулою. Той самий t завжди дає той самий результат."""</span>
+    <span class="k">return</span> <span class="n">h0</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">g</span> <span class="o">*</span> <span class="n">t</span> <span class="o">**</span> <span class="mi">2</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">height</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+<span class="c1"># 0 100.0</span>
+<span class="c1"># 1 95.1</span>
+<span class="c1"># 2 80.4</span>
+<span class="c1"># 3 55.9</span>
+<span class="c1"># запустіть ще раз — результат буде абсолютно той самий</span>
+</code></pre></div>
+<p>Приклад — модель черги в банку (стохастична модель): час обслуговування
+кожного клієнта — випадкова величина, тож навіть при тій самій кількості
+клієнтів результат кожного запуску інший:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">n_clients</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">service_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_clients</span><span class="p">)</span>  <span class="c1"># хв</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">service_times</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="c1"># [2.53 6.24 0.28 1.28 5.42]</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>                      <span class="c1"># ті самі 5 клієнтів, інший запуск</span>
+<span class="n">service_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_clients</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">service_times</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="c1"># [3.98 0.35 0.11 1.64 0.02]  -- інший результат при тій самій постановці</span>
+</code></pre></div>
+<p><strong>Чому це важлива відмінність.</strong> Детермінована модель дає одне число і
+однозначну відповідь — вона доречна, коли випадковість у реальній
+системі відсутня або нехтовно мала. Стохастична модель визнає, що
+реальна система містить невизначеність, і замість одного числа дає
+розподіл можливих результатів — середнє, розкид, ймовірність
+перевищити певний порог (наприклад, ймовірність, що черга перевищить
+10 людей). Описати чергу в банку формулою "кожен клієнт обслуговується
+рівно 3 хвилини" було б грубим спрощенням, що ігнорує саму суть
+проблеми — коливання навантаження; навпаки, додавати випадковість у
+модель падіння каменя в лабораторних умовах — невиправдане
+ускладнення, коли й без неї модель прекрасно узгоджується зі
+спостереженнями.</p>
+<h3 id="_5">Балансові моделі<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p><strong>Механіка.</strong> Балансова модель побудована навколо <strong>рівняння
+збереження</strong>: те, що входить у систему, або перетворюється всередині
+системи, або виходить із неї, або накопичується — без "втрати" й без
+"появи з нічого". Найзагальніша форма: <code>вхід = вихід + накопичення</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Матеріальний баланс хімічного реактора: вхід = вихід + накопичення</span>
+<span class="n">inflow</span> <span class="o">=</span> <span class="mf">120.0</span>     <span class="c1"># кг/год сировини на вході</span>
+<span class="n">outflow</span> <span class="o">=</span> <span class="mf">95.0</span>     <span class="c1"># кг/год готового продукту на виході</span>
+
+<span class="n">accumulation</span> <span class="o">=</span> <span class="n">inflow</span> <span class="o">-</span> <span class="n">outflow</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">accumulation</span><span class="p">)</span>   <span class="c1"># 25.0 кг/год залишається (накопичується) в реакторі</span>
+
+<span class="c1"># баланс виконується "за визначенням" — це рівняння не перевіряють</span>
+<span class="c1"># статистичним тестом, воно є структурним записом закону збереження</span>
+</code></pre></div>
+<p><strong>Чому саме так.</strong> Балансові моделі формалізують закони збереження, які
+не є гіпотезою для перевірки, а структурним фактом: маса, енергія чи
+гроші не зникають і не з'являються самі собою в межах, для яких модель
+проводить межу системи. Механіка балансової моделі — записати цей
+закон явно як рівняння, а потім розв'язати його щодо невідомої
+величини.</p>
+<p><strong>Де використовується.</strong> Матеріальний і енергетичний баланс у хімічній
+та енергетичній інженерії; бухгалтерський баланс "активи = зобов'язання
++ капітал" і бюджетна модель "витрати = доходи − прибуток" в економіці;
+баланс потоку речовини чи енергії в екологічній моделі (скільки
+біомаси виробляється, споживається й накопичується в екосистемі за
+рік).</p>
+<h3 id="_6">Оптимізаційні моделі<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p><strong>Механіка.</strong> Мета оптимізаційної моделі — не просто описати систему, а
+<strong>знайти найкраще рішення</strong> за певним критерієм (цільовою функцією) при
+заданих обмеженнях. Загальна структура:</p>
+<div class="highlight"><pre><span></span><code>максимізувати (або мінімізувати)   цільова функція
+за умов                             обмеження на змінні рішення
+</code></pre></div>
+<p>Приклад — план виробництва двох товарів, що максимізує прибуток при
+обмеженій сировині й людино-годинах:</p>
+<div class="highlight"><pre><span></span><code>максимізувати   прибуток = 40·x1 + 30·x2
+за умов         2·x1 + x2   ≤ 100     (сировина, кг)
+                x1 + 3·x2   ≤ 90      (людино-години)
+                x1, x2 ≥ 0
+</code></pre></div>
+<p>де <code>x1</code> і <code>x2</code> — обсяги виробництва першого й другого товару, які
+потрібно визначити.</p>
+<p><strong>Чому саме такий вигляд.</strong> На відміну від балансової моделі, де
+рівняння просто описує систему, оптимізаційна модель ставить рівняння
+й нерівності на службу <strong>пошуку</strong>: серед усіх комбінацій <code>x1, x2</code>, що
+задовольняють обмеження (допустима область), знайти ту, яка дає
+найбільше значення цільової функції. Саме явно сформульований критерій
+"найкращого" і чітко відокремлені обмеження — формальна ознака, що
+відрізняє оптимізаційну модель від інших типів.</p>
+<p><strong>Де використовується.</strong> Планування виробництва (скільки чого
+виробляти при обмежених ресурсах), розподіл бюджету між проєктами,
+складання розкладу, оптимізація маршрутів доставки, формування
+інвестиційного портфеля при обмеженому ризику. <strong>Лекція 19</strong> детально
+розглядає цей клас моделей — лінійне програмування і чисельну
+мінімізацію засобами <code>scipy.optimize</code>.</p>
+<h3 id="_7">Імітаційні моделі<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p><strong>Механіка.</strong> Імітаційна (симуляційна) модель відтворює поведінку
+системи <strong>в часі</strong> через алгоритм, що крок за кроком обчислює, як
+система змінюється, — замість того, щоб розв'язувати рівняння
+аналітично. Це підхід, коли аналітичний розв'язок або не існує, або
+надто складний для практичного виведення.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># оцінка числа π методом Монте-Карло: замість аналітичної формули —</span>
+<span class="c1"># багаторазова випадкова симуляція й підрахунок частки "влучень"</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10_000</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">inside_circle</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span>
+
+<span class="n">pi_estimate</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">inside_circle</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pi_estimate</span><span class="p">)</span>   <span class="c1"># ≈ 3.14, точне число трохи відрізняється між запусками</span>
+</code></pre></div>
+<p><strong>Чому саме симуляція, а не формула.</strong> Немає простої закритої формули,
+яка одним рядком обчислює середню довжину черги в банку з випадковими
+часами обслуговування й випадковими моментами приходу клієнтів —
+надто багато взаємодій між випадковими подіями. Але <strong>симулювати</strong>
+таку систему крок за кроком цілком реально, і, повторивши симуляцію
+багато разів, отримати статистично надійну оцінку середньої довжини
+черги чи ймовірності перевантаження. Показово, що модель черги з
+попереднього розділу — одночасно і <strong>стохастична</strong> (є випадковість), і
+<strong>імітаційна</strong> (розв'язок отримують симуляцією в часі, а не формулою) —
+наочна ілюстрація того, що осі класифікації незалежні: одна й та сама
+модель отримує окрему відповідь за кожною ознакою.</p>
+<p><strong>Де використовується.</strong> Моделювання черг і систем обслуговування,
+поширення епідемії в популяції, робота складної інженерної системи із
+множинними випадковими відмовами, оцінка інтегралів і ймовірностей
+методом Монте-Карло, коли аналітичне обчислення неможливе. <strong>Лекція
+20</strong> розглядає це детально: генерацію випадкових потоків і метод
+Монте-Карло як основний інструмент побудови й аналізу імітаційних
+моделей.</p>
+<h3 id="_8">Статичні та динамічні моделі — ще одна вісь<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p><strong>Механіка.</strong> Ця класифікація незалежна від попередніх і відповідає на
+інше питання: <strong>чи залежить модель явно від часу</strong>. Статична модель —
+"фотографія": стан описується без урахування того, що було раніше чи
+буде пізніше (регресія, що передбачає споживання за температурою того
+самого місяця, — статична: кожне спостереження оцінюється незалежно).
+Динамічна модель — стан у момент <code>t</code> залежить від попередніх станів
+(модель, що передбачає завтрашню температуру на основі сьогоднішньої й
+учорашньої, чи траєкторія тіла в часі) — саме такий тип моделей
+розглядає <strong>Лекція 21</strong> (аналіз часових рядів).</p>
+<h2 id="_9">Класифікаційна схема<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<p>Три ознаки з попереднього розділу — не гілки одного дерева з єдиною
+правильною відповіддю, а три окремі питання, які можна поставити про
+будь-яку модель одночасно:</p>
+<pre class="mermaid"><code>flowchart TD
+    M["Математична модель"] --&gt; Q1{"Є випадковість\nу структурі моделі?"}
+    Q1 --&gt;|"ні"| DET["Детермінована"]
+    Q1 --&gt;|"так"| STOCH["Стохастична"]
+
+    M --&gt; Q2{"Залежить явно\nвід часу?"}
+    Q2 --&gt;|"ні"| STAT["Статична"]
+    Q2 --&gt;|"так"| DYN["Динамічна"]
+
+    M --&gt; Q3{"Яка мета\nпобудови моделі?"}
+    Q3 --&gt; BAL["Балансова\n(рівняння збереження)"]
+    Q3 --&gt; OPT["Оптимізаційна\n(пошук найкращого рішення)"]
+    Q3 --&gt; SIM["Імітаційна\n(симуляція поведінки в часі)"]
+    Q3 --&gt; OTHER["жодне з трьох —\nнаприклад, описова/прогнозна\nстатистична модель"]</code></pre>
+<p>Той самий факт наочно у вигляді квадранта за двома першими ознаками —
+з прикладом моделі в кожній клітинці:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Статична</th>
+<th>Динамічна</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Детермінована</strong></td>
+<td>Розрахунок точки безбитковості за формулою (без часу)</td>
+<td>Рух тіла в часі за законами Ньютона</td>
+</tr>
+<tr>
+<td><strong>Стохастична</strong></td>
+<td>Регресія із випадковим залишком (Лекції 16–17): та сама температура завжди дає той самий прогноз, але фактичне значення коливається навколо нього</td>
+<td>Імітаційна модель черги в банку: довжина черги в момент <code>t</code> залежить від випадкових подій до моменту <code>t</code></td>
+</tr>
+</tbody>
+</table>
+<p>Третя ознака (балансова/оптимізаційна/імітаційна/жодне з трьох) не
+влазить у цю таблицю саме тому, що вона незалежна від перших двох:
+кожна клітинка могла б додатково бути "балансовою" чи
+"оптимізаційною" — наприклад, оптимізаційна модель розподілу бюджету
+зазвичай детермінована й статична, але нічого не забороняє їй бути
+стохастичною (оптимізація за умов невизначеного попиту) чи динамічною
+(рішення на кожному кроці часу).</p>
+<h2 id="_10">Верифікація і валідація<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<p>Ці два терміни часто плутають саме через їхню фонетичну й змістовну
+близькість, а питання, на яке кожен з них відповідає, — принципово
+різні.</p>
+<p><strong>Верифікація</strong> відповідає на питання: <strong>"чи реалізована модель
+правильно?"</strong> — чи код (чи формула, чи система рівнянь) робить саме те,
+що було задумано на кроці "побудова моделі", без помилок реалізації
+(неправильний знак, переплутана степінь, помилка в індексації масиву,
+неправильно заданий параметр розподілу). Верифікація не питає, чи
+модель добра — вона питає, чи те, що виконується, відповідає тому, що
+малося на увазі.</p>
+<p><em>Приклад верифікації для моделі вільного падіння:</em> перевірити вручну,
+що <code>height(0)</code> дає <code>h0</code> (тіло на початку падіння перебуває на початковій
+висоті) і що <code>height(t)</code> монотонно зменшується для зростаючого <code>t</code>, —
+якщо код через помилку в степені видає, наприклад, <code>t</code> замість <code>t**2</code>,
+це помилка реалізації, яку виявляє саме верифікація, ще до будь-якого
+порівняння з реальними вимірюваннями.</p>
+<p><em>Приклад верифікації для моделі черги в банку:</em> перевірити, що
+симуляція коректно оновлює довжину черги на кожному кроці (клієнт
+додається до черги при прибутті, видаляється після завершення
+обслуговування, а не, наприклад, видаляється двічі через помилку
+індексації), і що параметр <code>scale=3.0</code> дійсно відповідає задуманому
+середньому часу обслуговування 3 хвилини, а не переплутаний з іншим
+параметром розподілу.</p>
+<p><strong>Валідація</strong> відповідає на геть інше питання: <strong>"чи модель
+відповідає реальності?"</strong> — чи передбачення правильно реалізованої
+(верифікованої) моделі узгоджуються з фактичними спостереженнями чи
+вимірюваннями. Модель може бути ідеально верифікованою (код точно
+робить те, що задумано) і водночас невалідною (задумана структура сама
+погано описує реальну систему).</p>
+<p><em>Приклад валідації для моделі вільного падіння:</em> порівняти передбачені
+моделлю висоти з реально виміряними значеннями під час фактичного
+падіння тіла — якщо для малих <code>t</code> передбачення й вимірювання близькі, а
+для великих <code>t</code> систематично розходяться (бо модель ігнорує опір
+повітря), це провал валідації при цілком успішній верифікації: код
+робить саме те, що задумано, але сама задумана структура (без опору
+повітря) недостатньо точно описує реальність за межами малих швидкостей.</p>
+<p><em>Приклад валідації для моделі черги в банку:</em> порівняти середню довжину
+черги й середній час очікування, отримані симуляцією, із фактично
+виміряними значеннями в реальному відділенні банку впродовж тижня —
+якщо симуляція систематично недооцінює довжину черги в години пік,
+можливо, реальний розподіл часу прибуття клієнтів не такий рівномірний,
+як припущено в моделі (наприклад, є пікові години, не відображені у
+формалізації).</p>
+<p><strong>Чому плутанина цих двох понять шкідлива.</strong> Твердження "модель
+верифікована, тому вона правильна" — логічна помилка: верифікація
+підтверджує лише відповідність коду задуму, а не відповідність задуму
+реальності. Ідеально написаний код, що реалізує модель на хибних
+припущеннях, дає верифіковані, але невалідні результати. Без
+верифікації неможливо довіряти числам із моделі (можливо, там помилка
+коду); без валідації неможливо довіряти тому, що ці коректно обчислені
+числа означають щось для реального світу.</p>
+<h2 id="_11">Адекватність моделі<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<p><strong>Адекватність</strong> — узагальнена міра того, наскільки добре модель
+описує реальну систему для заявленої мети; валідація — це процес
+<strong>перевірки</strong> адекватності, а адекватність — те, що ця перевірка
+встановлює чи спростовує.</p>
+<p><strong>Як оцінюється адекватність — механіка.</strong></p>
+<ul>
+<li><strong>Порівняння передбачень з реальними/тестовими даними.</strong> Модель
+  застосовується до даних, які не використовувались при її побудові
+  (чи навмисно відкладені для перевірки), і передбачені значення
+  порівнюються з фактично спостереженими.</li>
+<li><strong>Аналіз залишків.</strong> Різниця "спостережене мінус передбачене"
+  (залишок) аналізується не лише за величиною, а й за <strong>структурою</strong>:
+  залишки, що виглядають як випадковий шум без видимого зв'язку зі
+  вхідними змінними, свідчать про адекватну модель у межах шуму
+  вимірювання; залишки із систематичним трендом чи закономірністю
+  (наприклад, завжди позитивні при великих значеннях <code>t</code>, як у прикладі
+  вільного падіння вище) свідчать, що сама структура моделі щось
+  упускає, а не просто "трохи шумить".</li>
+<li><strong>Чутливість до параметрів.</strong> Перевірка, наскільки сильно змінюється
+  результат моделі при невеликих змінах вхідних параметрів — модель,
+  чий результат хаотично "стрибає" від мізерної зміни вхідного
+  параметра, менш надійна для практичних висновків, ніж модель зі
+  стабільною, передбачуваною реакцією на зміну параметрів.</li>
+</ul>
+<p><strong>Прямий місток до Лекції 15.</strong> Формальні критерії узгодженості з
+Лекції 15 — це саме інструменти перевірки адекватності
+<strong>статистичної</strong> моделі в точному, кількісному вигляді: критерій
+хі-квадрат перевіряє, чи узгоджується спостережений розподіл частот із
+тим, що передбачає модель; тест Шапіро-Вілка — чи узгоджується форма
+вибірки з припущенням нормальності. Коефіцієнт детермінації R² з
+регресії (Лекції 16–17) — ще один кількісний показник адекватності:
+яку частку коливання залежної змінної пояснює модель. Різні типи
+моделей використовують різні інструменти перевірки, але змістовне
+питання завжди те саме: чи узгоджується модель з реальністю достатньо
+добре для мети, з якою її будували.</p>
+<h2 id="_12">Типові помилки<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<p><strong>"Модель верифікована, тому вона правильна".</strong> Розглянуто детально
+вище: верифікація стосується коду й реалізації, валідація — реальності.
+Ідеально реалізований код не гарантує адекватності моделі.</p>
+<p><strong>Модель, валідна на одних даних, вважається універсально правильною
+для будь-яких умов.</strong> Валідація завжди відбувається в межах певного
+діапазону даних. Застосування моделі поза цим діапазоном —
+<strong>екстраполяція</strong> — несе ризик, який попередня валідація не могла
+перевірити: модель вільного падіння без опору повітря чудово
+узгоджується з вимірюваннями при малих швидкостях і дає відчутно
+неточні передбачення при великих, де знехтуваний фактор стає значущим.</p>
+<p><strong>Ототожнення "детермінований" з "точний/надійний", а "стохастичний" —
+з "неточний/поганий".</strong> Це геть різні осі: детермінована модель може
+бути грубо неадекватною (модель черги в банку без випадковості
+взагалі втратить сенс задачі), а стохастична модель може бути дуже
+точним описом системи, у якій випадковість — не недолік опису, а сама
+суть явища.</p>
+<p><strong>Складніша модель автоматично вважається "кращою" чи "адекватнішою".</strong>
+Додавання параметрів майже завжди покращує узгодженість моделі саме з
+тими даними, на яких її будували, але не означає автоматичного
+покращення адекватності для нових даних: кожен додатковий параметр
+потрібно оцінити з обмежених даних, а зайва складність може зробити
+модель менш надійною поза межами вибірки, на якій її підганяли.</p>
+<h2 id="_13">Підсумок<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Математична модель — спрощене формальне представлення реальної
+  системи через змінні, параметри, рівняння й область застосовності;
+  "спрощене" — необхідна умова, а не недолік, і компроміс
+  точність–простота завжди залежить від мети моделювання.</li>
+<li>Моделювання — цикл: постановка задачі → формалізація → побудова
+  моделі → реалізація → верифікація → валідація → аналіз результатів,
+  і за потреби — повернення до формалізації, якщо валідація виявляє
+  суттєву розбіжність із реальністю.</li>
+<li>Моделі класифікуються за кількома <strong>незалежними</strong> ознаками одночасно:
+  детермінована/стохастична (наявність випадковості), статична/
+  динамічна (залежність від часу), і за метою побудови — балансова
+  (рівняння збереження), оптимізаційна (пошук найкращого рішення),
+  імітаційна (симуляція поведінки в часі) чи жодна з цих трьох.</li>
+<li>Верифікація перевіряє, чи модель реалізована правильно (відповідність
+  коду задуманій структурі); валідація перевіряє, чи модель відповідає
+  реальності (відповідність передбачень фактичним спостереженням) —
+  плутанина цих двох понять — найпоширеніша помилка теми.</li>
+<li>Адекватність оцінюється порівнянням передбачень з реальними даними,
+  аналізом структури залишків і чутливості до параметрів; формальні
+  критерії узгодженості з Лекції 15 і R² з Лекцій 16–17 — конкретні
+  кількісні інструменти цієї оцінки для статистичних моделей.</li>
+</ul>
+<p>Оптимізаційні моделі, щойно класифіковані тут як окремий тип за метою
+побудови, — тема <strong>Лекції 19</strong>: як формально ставити задачу пошуку
+найкращого рішення при обмеженнях (лінійне програмування) і розв'язувати
+її обчислювально.</p>
+<p><strong>Практика до цієї лекції:</strong> <a href="../../practice/19-model-adequacy/">Практика 19. Класифікація математичних моделей: аналіз прикладів, перевірка адекватності моделі</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Повернутись нагору
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "content.code.copy", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0456\u0439\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u0421\u043a\u043e\u043f\u0456\u044e\u0432\u0430\u0442\u0438 \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0429\u0435 1 \u0437\u0431\u0456\u0433 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.more.other": "\u0429\u0435 # \u0437\u0431\u0456\u0433\u0456\u0432 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.none": "\u0417\u0431\u0456\u0433\u0456\u0432 \u043d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0437\u0431\u0456\u0433", "search.result.other": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e # \u0437\u0431\u0456\u0433\u0456\u0432", "search.result.placeholder": "\u0420\u043e\u0437\u043f\u043e\u0447\u043d\u0456\u0442\u044c \u043f\u0438\u0441\u0430\u0442\u0438 \u0434\u043b\u044f \u043f\u043e\u0448\u0443\u043a\u0443", "search.result.term.missing": "\u041d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e \u0437\u0430\u043f\u0438\u0442\u0443", "select.version": "\u041e\u0431\u0440\u0430\u0442\u0438 \u0432\u0435\u0440\u0441\u0456\u044e"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

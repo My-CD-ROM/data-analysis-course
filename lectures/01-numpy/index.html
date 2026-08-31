@@ -1,0 +1,3313 @@
+
+<!doctype html>
+<html lang="uk" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Матеріали лекцій і практичних занять курсу">
+      
+      
+        <meta name="author" content="Роман Боба">
+      
+      
+      
+        <link rel="prev" href="../00-vstup/">
+      
+      
+        <link rel="next" href="../02-pandas/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>1. NumPy: масиви і векторизовані обчислення - Аналіз даних і математичне моделювання</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-numpy" class="md-skip">
+          Перейти до змісту
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Хедер">
+    <a href="../.." title="Аналіз даних і математичне моделювання" class="md-header__button md-logo" aria-label="Аналіз даних і математичне моделювання" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Аналіз даних і математичне моделювання
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. NumPy: масиви і векторизовані обчислення
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Темна тема"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Темна тема" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Світла тема"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Світла тема" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Пошук" placeholder="Пошук" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Шукати">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистити" aria-label="Очистити" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Пошук розпочато
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Вкладки" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Курс
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../00-vstup/" class="md-tabs__link">
+          
+  
+  
+  Лекції
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../practice/01-numpy-env/" class="md-tabs__link">
+          
+  
+  
+  Практичні
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../independent-study/" class="md-tabs__link">
+          
+  
+  
+  Самостійна робота
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Навігація" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Аналіз даних і математичне моделювання" class="md-nav__button md-logo" aria-label="Аналіз даних і математичне моделювання" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Аналіз даних і математичне моделювання
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Курс
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лекції
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Лекції
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 1. Інструменти, дані та описова статистика
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 1. Інструменти, дані та описова статистика
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-vstup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0. Вступ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. NumPy: масиви і векторизовані обчислення
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. NumPy: масиви і векторизовані обчислення
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Зміст">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Зміст
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#numpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Що таке NumPy і де його використовують
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Чому не звичайний список Python
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Чому не звичайний список Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Наскільки це швидше
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Створення масивів
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Форма і тип масиву
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Форма і тип масиву">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Усі рядки мають бути однакової довжини
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Чому тип буває несподіваним
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Індексація і зрізи
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Індексація і зрізи">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Булева індексація
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#__gt__-__getitem__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Що насправді відбувається: __gt__ і __getitem__
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#axis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Агрегатні функції та axis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#broadcasting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Broadcasting: операції між масивами різної форми
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Типові помилки
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Чому це важливо для решти курсу
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Підсумок
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-pandas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. pandas: Series, DataFrame, індекс, відбір і обчислювані стовпці
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-tidy-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Шкали вимірювання і типи змінних
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-cleaning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Чищення даних: пропуски, дублікати, типи, кодування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-frequency-distribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Частотний розподіл однієї змінної: варіаційний ряд і гістограма
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-dispersion-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Міри розсіювання і форма розподілу
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-visualization-grouping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Принципи коректної візуалізації і типові спотворення
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-derived-variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Похідні змінні: дискретизація, масштабування, кодування категорій
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 2. Випадковість, розподіли і статистичний висновок
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 2. Випадковість, розподіли і статистичний висновок
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-probability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Випадкові події та ймовірність
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-distributions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Неперервні й дискретні розподіли: рівномірний, нормальний, експоненційний, біноміальний, Пуассона
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-clt-lln/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Закон великих чисел і центральна гранична теорема
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-confidence-intervals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Довірчі інтервали
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-hypothesis-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Перевірка статистичних гіпотез: логіка, p-value, помилки I і II роду
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-parametric-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Параметричні критерії порівняння середніх і дисперсій
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15-goodness-of-fit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Критерії узгодженості й перевірка нормальності
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 3. Залежності, регресія та математичні моделі
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 3. Залежності, регресія та математичні моделі
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../16-correlation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Кореляційний аналіз: Пірсон, Спірмен і обмеження застосування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../17-multiple-regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Множинна лінійна регресія: побудова, діагностика, інтерпретація
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../18-model-classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. Поняття математичної моделі й етапи моделювання
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../19-optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Задачі оптимізації та лінійне програмування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 4. Випадковість у моделюванні, часові ряди та машинне навчання
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 4. Випадковість у моделюванні, часові ряди та машинне навчання
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20-monte-carlo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    20. Генерація випадкових чисел і випадкових потоків
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21-time-series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    21. Часові ряди: структура і згладжування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22-ml-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    22. Машинне навчання: постановка задачі, навчальна і тестова вибірки, перенавчання, метрики якості (огляд)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Практичні
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Практичні
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 1. Інструменти, дані та описова статистика
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 1. Інструменти, дані та описова статистика
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/01-numpy-env/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Робоче середовище і NumPy: віртуальне середовище, ноутбук, масиви й векторизовані обчислення
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/02-pandas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. pandas: побудова DataFrame, індекс, відбір рядків і стовпців, обчислювані стовпці
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/03-tidy-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Приведення набору до tidy data; читання і запис таблиць (CSV, Excel, JSON)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/04-cleaning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Чищення набору: пропуски, дублікати, типи, узгодження категорій
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/05-frequency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Шкали вимірювання і частотний розподіл: класифікація набору, варіаційний ряд, гістограма
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/06-descriptive-stats/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Описова статистика: міри положення і розсіювання, describe, порівняння груп
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/07-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Візуалізація: Figure і Axes, підписи, гістограма, boxplot, діаграма розсіювання
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/08-groupby-pivot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Групування і зведені таблиці: groupby, агрегувальні функції, pivot_table, crosstab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/09-feature-transform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Перетворення даних: похідні змінні, дискретизація, масштабування, індикаторне кодування
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 2. Випадковість, розподіли і статистичний висновок
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 2. Випадковість, розподіли і статистичний висновок
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/10-scipy-distributions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Неперервні розподіли в scipy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/11-clt-simulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Числові характеристики випадкової величини; закон великих чисел і ЦГТ симуляцією
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/12-confidence-intervals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Довірчі інтервали для середнього і частки
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/13-hypothesis-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Точкові оцінки та перевірка гіпотез: обчислення p-value, інтерпретація результату
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/14-t-test/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Параметричні критерії: t-критерій для однієї та двох вибірок, порівняння дисперсій
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/15-chi-square/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Критерії узгодженості й таблиці спряженості: критерій хі-квадрат
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 3. Залежності, регресія та математичні моделі
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 3. Залежності, регресія та математичні моделі
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/16-correlation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Кореляційний аналіз: діаграма розсіювання, коефіцієнти Пірсона і Спірмена, кореляційна матриця
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/17-simple-regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Проста лінійна регресія: побудова моделі, коефіцієнти, залишки, коефіцієнт детермінації
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/18-multiple-regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. Множинна лінійна регресія: відбір предикторів, інтерпретація коефіцієнтів, діагностика залишків
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/19-model-adequacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Класифікація математичних моделей: аналіз прикладів, перевірка адекватності моделі
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/20-linear-programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    20. Лінійне програмування: постановка задачі, розв'язання засобами scipy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 4. Випадковість у моделюванні, часові ряди та машинне навчання
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Модуль 4. Випадковість у моделюванні, часові ряди та машинне навчання
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/21-monte-carlo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    21. Метод Монте-Карло: обчислення площі та інтеграла, оцінка сподівання, збіжність за кількістю випробувань
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../practice/22-time-series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    22. Часовий ряд: побудова, ковзне середнє, виділення тренду і прогноз на кілька кроків
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Самостійна робота
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Самостійна робота
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Огляд і графік
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/module1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/module2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/module3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../independent-study/module4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Модуль 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Зміст">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Зміст
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#numpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Що таке NumPy і де його використовують
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Чому не звичайний список Python
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Чому не звичайний список Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Наскільки це швидше
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Створення масивів
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Форма і тип масиву
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Форма і тип масиву">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Усі рядки мають бути однакової довжини
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Чому тип буває несподіваним
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Індексація і зрізи
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Індексація і зрізи">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Булева індексація
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#__gt__-__getitem__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Що насправді відбувається: __gt__ і __getitem__
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#axis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Агрегатні функції та axis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#broadcasting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Broadcasting: операції між масивами різної форми
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Типові помилки
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Чому це важливо для решти курсу
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Підсумок
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="1-numpy">Лекція 1. NumPy: масиви і векторизовані обчислення<a class="headerlink" href="#1-numpy" title="Permanent link">&para;</a></h1>
+<p><em>NumPy — бібліотека, на якій побудований увесь науковий Python-стек:
+pandas зберігає дані у вигляді масивів NumPy, Matplotlib малює графіки за
+масивами чисел, SciPy й statsmodels рахують на них статистику. Розуміння
+масиву NumPy — це розуміння того, як усередині влаштоване практично все,
+що буде далі в курсі.</em></p>
+<h2 id="numpy">Що таке NumPy і де його використовують<a class="headerlink" href="#numpy" title="Permanent link">&para;</a></h2>
+<p>NumPy (Numerical Python) — базова бібліотека Python для роботи з
+числовими масивами, ядро якої (сам масив <code>ndarray</code> і операції над ним)
+написане на C, а не на Python, — саме тому вона й здатна бути швидшою
+за звичайний Python на порядки, про що детально йдеться нижче.
+З'явилась у сучасному вигляді 2006 року (Тревіс Олівант об'єднав дві
+попередні, конкуруючі бібліотеки — Numeric і Numarray), і з того часу є
+фактичним стандартом для будь-яких числових обчислень у Python: жодна
+інша бібліотека для роботи з таблицями, графіками чи статистикою не
+вигадує власний масив — усі використовують саме <code>ndarray</code> NumPy як
+спільну основу.</p>
+<p>Застосування виходить далеко за межі одного курсу з аналізу даних:
+наукові обчислення й інженерні симуляції (фізика, хімія, обробка
+сигналів), обробка зображень (кольорове зображення — це просто
+тривимірний масив чисел: висота × ширина × канали кольору),
+геопросторовий аналіз, фінансовий аналіз (обчислення на масивах цін чи
+прибутковостей). А в межах цього курсу — це фундамент, на якому
+побудовані буквально всі бібліотеки, що з'являться далі: pandas
+(Лекція 2), Matplotlib (Лекція 6), SciPy (Лекції 10, 19) і statsmodels
+(Лекція 17) усі внутрішньо зберігають дані саме в масивах NumPy й
+викликають ту саму векторизовану математику, лише під зручнішим
+інтерфейсом.</p>
+<h2 id="python">Чому не звичайний список Python<a class="headerlink" href="#python" title="Permanent link">&para;</a></h2>
+<p>Список Python (<code>list</code>) — універсальний контейнер: у ньому можуть лежати
+елементи різних типів, і кожен елемент — окремий об'єкт у пам'яті, на
+який список зберігає лише посилання. Це зручно, але для великих
+однотипних числових наборів — повільно і громіздко.</p>
+<div class="highlight"><pre><span></span><code><span class="n">temps</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c1"># щоб перевести кожне значення у Фаренгейти, потрібен цикл або list comprehension</span>
+<span class="n">temps_f</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="o">*</span> <span class="mi">9</span> <span class="o">/</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">32</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">temps</span><span class="p">]</span>
+</code></pre></div>
+<p>Масив NumPy зберігає однотипні елементи в одному суцільному блоці пам'яті
+(як у мовах C/Fortran) і виконує операції не по одному елементу через
+цикл Python, а всією операцією одразу над усім блоком:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">temps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">temps_f</span> <span class="o">=</span> <span class="n">temps</span> <span class="o">*</span> <span class="mi">9</span> <span class="o">/</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">32</span>   <span class="c1"># без циклу — вся операція одразу над масивом</span>
+</code></pre></div>
+<p>Такий підхід називається <strong>векторизацією</strong>: операція записується так,
+наче застосовується до одного числа, а виконується одразу над усім
+набором.</p>
+<h3 id="_1">Наскільки це швидше<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p>На маленьких масивах різниця непомітна, але на великих — принципова.
+Порівняння на мільйоні елементів:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">1_000_000</span>
+<span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">squared_loop</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"List comprehension: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> с"</span><span class="p">)</span>
+
+<span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">squared_vec</span> <span class="o">=</span> <span class="n">arr</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"NumPy векторизація: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> с"</span><span class="p">)</span>
+</code></pre></div>
+<p>Точні секунди залежать від комп'ютера, але порядок різниці — приблизно
+10–50 разів на користь NumPy. Причина: цикл Python на кожній ітерації
+перевіряє типи, створює новий об'єкт <code>int</code>, звертається до нього через
+посилання; векторизована операція NumPy виконується одним викликом
+низькорівневого коду на C над суцільним блоком пам'яті, без цих
+накладних витрат на кожен елемент.</p>
+<h2 id="_2">Створення масивів<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>          <span class="c1"># з існуючого списку</span>
+<span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>                  <span class="c1"># [0. 0. 0. 0. 0.]</span>
+<span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>              <span class="c1"># матриця 2×3 з одиниць</span>
+<span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">7</span><span class="p">)</span>           <span class="c1"># матриця 2×2, заповнена числом 7</span>
+<span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>          <span class="c1"># [0 2 4 6 8] — як range(), але масив</span>
+<span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>         <span class="c1"># [0. 0.25 0.5 0.75 1.] — 5 точок рівномірно від 0 до 1</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Функція</th>
+<th>Що створює</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>np.array(list)</code></td>
+<td>масив із наявних даних (найчастіший випадок — дані вже десь є)</td>
+</tr>
+<tr>
+<td><code>np.zeros(n)</code> / <code>np.ones(n)</code></td>
+<td>масив-заглушка з нулів/одиниць потрібного розміру</td>
+</tr>
+<tr>
+<td><code>np.full(shape, value)</code></td>
+<td>масив-заглушка, заповнений довільним значенням</td>
+</tr>
+<tr>
+<td><code>np.arange(start, stop, step)</code></td>
+<td>послідовність чисел із заданим кроком</td>
+</tr>
+<tr>
+<td><code>np.linspace(start, stop, num)</code></td>
+<td><code>num</code> точок, рівномірно розподілених у межах</td>
+</tr>
+</tbody>
+</table>
+<p><code>np.zeros</code>, <code>np.ones</code>, <code>np.arange</code> рідко потрібні для реальних даних (їх
+частіше завантажують з файлу через pandas), але саме на них найпростіше
+показати форму та тип масиву — два ключові поняття, які варто зафіксувати
+одразу.</p>
+<h2 id="_3">Форма і тип масиву<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>Кожен масив має:</p>
+<ul>
+<li><strong><code>shape</code></strong> — форму: скільки елементів по кожному вимірі (кортеж);</li>
+<li><strong><code>dtype</code></strong> — тип елементів (усі елементи масиву мають бути одного типу);</li>
+<li><strong><code>ndim</code></strong> — кількість вимірів;</li>
+<li><strong><code>size</code></strong> — загальна кількість елементів.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="n">a</span><span class="o">.</span><span class="n">shape</span>   <span class="c1"># (2, 3) — 2 рядки, 3 стовпці</span>
+<span class="n">a</span><span class="o">.</span><span class="n">dtype</span>   <span class="c1"># dtype('int64')</span>
+<span class="n">a</span><span class="o">.</span><span class="n">ndim</span>    <span class="c1"># 2 — кількість вимірів</span>
+<span class="n">a</span><span class="o">.</span><span class="n">size</span>    <span class="c1"># 6 — усього елементів (2 × 3)</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">b</span><span class="o">.</span><span class="n">shape</span>   <span class="c1"># (3,) — одновимірний масив із 3 елементів</span>
+</code></pre></div>
+<p>Одновимірний масив (<code>shape == (3,)</code>) — це не те саме, що рядок або
+стовпець матриці (<code>shape == (1, 3)</code> або <code>(3, 1)</code>); різниця здається
+дрібницею, поки не почне впливати на broadcasting (нижче) чи на те, що
+саме повертає індексація.</p>
+<h3 id="_4">Усі рядки мають бути однакової довжини<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>Для одновимірного масиву кількість елементів може бути будь-якою. Але
+щойно створюєте <strong>двовимірний</strong> масив зі списку списків, кожен внутрішній
+список стає одним рядком — і всі рядки обов'язково мають бути однакової
+довжини:</p>
+<div class="highlight"><pre><span></span><code><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]])</span>
+<span class="c1"># ValueError: setting an array element with a sequence.</span>
+<span class="c1"># The requested array has an inhomogeneous shape after 1 dimensions.</span>
+</code></pre></div>
+<p><strong>Чому так:</strong> <code>shape</code> — це завжди чіткий прямокутник (наприклад, <code>(2,
+3)</code>), а рядки різної довжини такого прямокутника не утворюють — NumPy
+просто не може визначити єдину форму для всього масиву. Якщо побачите цю
+помилку, перевіряти варто самі дані, а не код: десь один рядок довший чи
+коротший за інші.</p>
+<h3 id="_5">Чому тип буває несподіваним<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>Усі елементи масиву обов'язково мають один спільний тип — тому, коли в
+один масив потрапляють значення різної природи, NumPy підвищує (upcast)
+увесь масив до найширшого типу, який здатен вмістити всі значення:</p>
+<div class="highlight"><pre><span></span><code><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">dtype</span>             <span class="c1"># int64      — усе ціле</span>
+<span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">])</span><span class="o">.</span><span class="n">dtype</span>           <span class="c1"># float64    — з'явилось дробове → усе стало float</span>
+<span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"два"</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">dtype</span>         <span class="c1"># '&lt;U21'     — з'явився текст → усе стало рядком</span>
+</code></pre></div>
+<p><code>'&lt;U21'</code> означає: рядок Unicode (<code>U</code>), максимальною довжиною 21 символ
+(NumPy підбирає це число автоматично за найдовшим елементом). Якщо
+масив несподівано має текстовий <code>dtype</code>, хоча очікувались числа — це
+майже завжди ознака, що туди потрапило нечислове значення, і варто
+перевірити джерело даних.</p>
+<h2 id="_6">Індексація і зрізи<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>Індексація масивів працює як у списків Python (з нуля, зрізи через <code>:</code>),
+але додатково підтримує координати для кількох вимірів і вибір за умовою.</p>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">])</span>
+
+<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>        <span class="c1"># 10 — перший елемент</span>
+<span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>       <span class="c1"># 50 — останній елемент</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>      <span class="c1"># [20 30 40] — зріз, межа праворуч НЕ включно</span>
+<span class="n">a</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>      <span class="c1"># [10 30 50] — крок 2: кожен другий елемент</span>
+<span class="n">a</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>     <span class="c1"># [50 40 30 20 10] — весь масив у зворотному порядку</span>
+</code></pre></div>
+<p>Для двовимірних масивів координати вказуються через кому: <code>a[рядок,
+стовпець]</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>     <span class="c1"># 3 — рядок 0, стовпець 2</span>
+<span class="n">m</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>     <span class="c1"># [2 5] — усі рядки, стовпець 1</span>
+<span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>     <span class="c1"># [4 5 6] — рядок 1, усі стовпці</span>
+</code></pre></div>
+<h3 id="_7">Булева індексація<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>Замість того, щоб писати <code>if</code> у циклі, умова записується прямо всередині
+квадратних дужок і одразу повертає лише елементи, які їй відповідають:</p>
+<div class="highlight"><pre><span></span><code><span class="n">a</span><span class="p">[</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">]</span>           <span class="c1"># [30 40 50] — тільки елементи більші за 25</span>
+<span class="n">a</span><span class="p">[(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="mi">45</span><span class="p">)]</span>   <span class="c1"># [20 30 40] — кілька умов одразу</span>
+</code></pre></div>
+<p>Кілька умов об'єднуються через <code>&amp;</code> («і») і <code>|</code> («або») <strong>в дужках навколо
+кожної умови</strong>, а не через <code>and</code>/<code>or</code> — звичайні <code>and</code>/<code>or</code> Python
+працюють з одним булевим значенням, тоді як <code>a &gt; 15</code> — це вже цілий
+масив <code>True</code>/<code>False</code>, і Python не знає, як звести масив до одного
+<code>True</code>/<code>False</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">a</span><span class="p">[</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">15</span> <span class="ow">and</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="mi">45</span><span class="p">]</span>     <span class="c1"># ValueError: The truth value of an array</span>
+                          <span class="c1"># with more than one element is ambiguous</span>
+</code></pre></div>
+<h3 id="__gt__-__getitem__">Що насправді відбувається: <code>__gt__</code> і <code>__getitem__</code><a class="headerlink" href="#__gt__-__getitem__" title="Permanent link">&para;</a></h3>
+<p><code>a &gt; 25</code> і <code>a[mask]</code> — не магія мови, а звичайні методи Python, які
+NumPy перевизначив для <code>ndarray</code>. <code>a &gt; 25</code> — це виклик <code>a.__gt__(25)</code>,
+який повертає новий булевий масив тієї самої форми (а не одне
+<code>True</code>/<code>False</code>, як для звичайного числа). <code>a[mask]</code> — це виклик
+<code>a.__getitem__(mask)</code>: коли всередині дужок булевий масив тієї ж форми,
+NumPy розпізнає це як запит на відбір за маскою, а не як звичний доступ
+за позицією.</p>
+<h2 id="axis">Агрегатні функції та <code>axis</code><a class="headerlink" href="#axis" title="Permanent link">&para;</a></h2>
+<p>Замість того, щоб рахувати суму чи середнє в циклі, NumPy надає готові
+агрегатні функції:</p>
+<div class="highlight"><pre><span></span><code><span class="n">temps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">temps</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>    <span class="c1"># 101</span>
+<span class="n">temps</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>   <span class="c1"># 8.42</span>
+<span class="n">temps</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>    <span class="c1"># стандартне відхилення</span>
+<span class="n">temps</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>    <span class="c1"># -4</span>
+<span class="n">temps</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>    <span class="c1"># 21     — саме значення</span>
+<span class="n">temps</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span> <span class="c1"># 6      — індекс (позиція) цього значення, а не саме значення</span>
+</code></pre></div>
+<p>Для двовимірних масивів параметр <code>axis</code> вказує, <strong>вздовж якої осі</strong>
+рахувати — і саме тут найчастіше виникає плутанина, тож розберемо
+детально.</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="n">m</span><span class="o">.</span><span class="n">shape</span>          <span class="c1"># (2, 3): вісь 0 — рядки (розмір 2), вісь 1 — стовпці (розмір 3)</span>
+
+<span class="n">m</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>   <span class="c1"># [5 7 9]  — по одному числу на СТОВПЕЦЬ</span>
+<span class="n">m</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># [6 15]   — по одному числу на РЯДОК</span>
+</code></pre></div>
+<p>Це не означає, що «вісь 0 — це стовпець»: <code>axis=0</code> — вісь <strong>рядків</strong>
+(перший індекс <code>m[i, ...]</code>), <code>axis=1</code> — вісь <strong>стовпців</strong> (другий індекс
+<code>m[..., j]</code>). Коли рахуєте суму <strong>вздовж</strong> осі, ви складаєте значення,
+що відрізняються саме за цим індексом (наприклад, вздовж осі рядків —
+складаєте значення з різних рядків одного стовпця), і ця вісь після
+підсумку <strong>зникає</strong>. Те, що залишається — розмір іншої осі — і стає
+довжиною результату:</p>
+<ul>
+<li><code>sum(axis=0)</code> — зникає вісь рядків → лишається розмір осі стовпців (3)
+  → <strong>результат по стовпцях</strong>;</li>
+<li><code>sum(axis=1)</code> — зникає вісь стовпців → лишається розмір осі рядків (2)
+  → <strong>результат по рядках</strong>.</li>
+</ul>
+<pre class="mermaid"><code>flowchart LR
+    subgraph "axis=0 — вздовж рядків, зникає вісь рядків"
+        direction TB
+        A1["стовпець 1: 1+4=5"]
+        A2["стовпець 2: 2+5=7"]
+        A3["стовпець 3: 3+6=9"]
+    end
+    subgraph "axis=1 — вздовж стовпців, зникає вісь стовпців"
+        direction TB
+        B1["рядок 1: 1+2+3=6"]
+        B2["рядок 2: 4+5+6=15"]
+    end</code></pre>
+<h2 id="broadcasting">Broadcasting: операції між масивами різної форми<a class="headerlink" href="#broadcasting" title="Permanent link">&para;</a></h2>
+<p>Векторизовані операції працюють не тільки між масивом і одним числом, а
+й між двома масивами різної форми — якщо їхні форми «сумісні». Це
+називається <strong>broadcasting</strong>: менший масив уявно розтягується до форми
+більшого, без реального копіювання даних.</p>
+<p><strong>Правило:</strong> форми порівнюються <strong>з правого краю</strong>. Якщо вимірів
+менше — коротша форма доповнюється одиницями зліва. Дві осі сумісні,
+якщо вони рівні або одна з них дорівнює 1.</p>
+<pre class="mermaid"><code>flowchart TD
+    A["Дві форми A і B"] --&gt; B["Вирівняти з правого краю,\nдоповнити коротшу одиницями зліва"]
+    B --&gt; C{"Для кожної пари вимірів:\nрівні чи одна з них 1?"}
+    C --&gt;|"так, для всіх пар"| D["Форми сумісні —\nменша розтягується, операція виконується"]
+    C --&gt;|"ні — є пара,\nде не рівні і жодна не 1"| E["ValueError:\nforми неможливо узгодити"]</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">prices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">])</span>
+<span class="n">prices</span> <span class="o">*</span> <span class="mf">0.9</span>                 <span class="c1"># [90. 180. 270.] — число розтягується на весь масив</span>
+
+<span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>   <span class="c1"># shape (2, 3)</span>
+<span class="n">row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>                 <span class="c1"># shape (3,) → доповнюється до (1, 3)</span>
+<span class="n">matrix</span> <span class="o">+</span> <span class="n">row</span>
+<span class="c1"># [[11 22 33]</span>
+<span class="c1">#  [14 25 36]]  — row додається до КОЖНОГО рядка</span>
+</code></pre></div>
+<p>Порівняння тут: <code>(2, 3)</code> і <code>(1, 3)</code> (після доповнення) — останні осі
+<code>3 == 3</code> ✓, перші осі <code>2</code> і <code>1</code> → <code>1</code> розтягується до <code>2</code> ✓. Обидві пари
+сумісні, тож усе спрацьовує.</p>
+<p>А якщо потрібно додати вектор не до кожного <strong>рядка</strong>, а до кожного
+<strong>стовпця</strong> матриці <code>(2, 3)</code> — вектор довжини 2 (по одному числу на
+рядок) сам собою не підійде, бо його форма <code>(2,)</code> вирівняється як <code>3</code>
+проти <code>2</code>, і <code>2 ≠ 3</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">])</span>       <span class="c1"># shape (2,) — по одному числу на рядок</span>
+<span class="n">matrix</span> <span class="o">+</span> <span class="n">col</span>                      <span class="c1"># ValueError: shapes (2,3) (2,) не узгоджуються</span>
+</code></pre></div>
+<p>Щоб це спрацювало, <code>col</code> треба явно перетворити на стовпець форми
+<code>(2, 1)</code> — тоді останні осі стануть <code>3</code> і <code>1</code>, і <code>1</code> розтягнеться
+правильно:</p>
+<div class="highlight"><pre><span></span><code><span class="n">matrix</span> <span class="o">+</span> <span class="n">col</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="c1"># [[101 102 103]</span>
+<span class="c1">#  [204 205 206]]</span>
+</code></pre></div>
+<p>Той самий результат дають <code>col.reshape(-1, 1)</code> (NumPy сам обчислює
+розмір замість <code>2</code>), <code>col[:, np.newaxis]</code> і <code>np.expand_dims(col, axis=1)</code>
+— три рівнозначні способи додати вісь розміром 1 у потрібне місце.</p>
+<h2 id="_8">Типові помилки<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p><strong>Плутанина <code>shape (n,)</code> і <code>(1, n)</code>.</strong> Візуально це «той самий» ряд
+чисел, але це різні форми: <code>(n,)</code> не бере участі в broadcasting так, як
+<code>(1, n)</code>, і <code>a[0]</code> для кожної з них поверне різне — число проти цілого
+рядка.</p>
+<p><strong><code>and</code>/<code>or</code> замість <code>&amp;</code>/<code>|</code>.</strong> У булевій індексації <code>and</code>/<code>or</code>
+працюють лише з одним булевим значенням, а <code>a &gt; 5</code> — це масив; звідси
+<code>ValueError: The truth value of an array … is ambiguous</code>. Кожну умову
+слід брати в дужки: <code>(a &gt; 5) &amp; (a &lt; 20)</code>.</p>
+<p><strong>Тихе підвищення типу.</strong> Один текстовий чи дробовий елемент серед
+цілих чисел перетворює <code>dtype</code> <strong>усього</strong> масиву — і про це легко не
+помітити, поки математичні операції не почнуть давати дивний результат
+(наприклад, конкатенацію рядків замість суми чисел).</p>
+<p><strong>Плутанина напрямку <code>axis</code>.</strong> <code>axis=N</code> — це вісь, яка <strong>зникає</strong> після
+агрегації; результат описує решту вимірів, а не саму вісь <code>N</code>. Якщо
+результат виглядає «навпаки» — це найчастіша причина.</p>
+<p><strong>Зріз — це «вигляд» (view), а не копія.</strong> Зміна елемента в зрізі змінює
+й оригінальний масив, бо вони фізично використовують ту саму пам'ять:</p>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">99</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>   <span class="c1"># [1 99 3 4 5] — оригінал змінився!</span>
+</code></pre></div>
+<p>Якщо потрібна справді незалежна копія — <code>b = a[1:3].copy()</code>.</p>
+<h2 id="_9">Чому це важливо для решти курсу<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<p>pandas <code>DataFrame</code> — це, по суті, таблиця з масивів NumPy, по одному на
+кожен стовпець, плюс іменований індекс і заголовки стовпців. Тому:</p>
+<ul>
+<li>операції над стовпцем <code>DataFrame</code> (додати, помножити, порівняти) — це
+  ті самі векторизовані операції NumPy;</li>
+<li>булева індексація <code>df[df["col"] &gt; 10]</code> у pandas — той самий принцип,
+  що й <code>a[a &gt; 25]</code> тут, з тим самим правилом <code>&amp;</code>/<code>|</code> замість <code>and</code>/<code>or</code>;</li>
+<li><code>axis</code> у <code>df.sum(axis=1)</code> — те саме поняття, що й тут;</li>
+<li>Matplotlib і statsmodels усередині також працюють із масивами NumPy —
+  pandas лише додає над ними зручний шар імен і таблиць.</li>
+</ul>
+<h2 id="_10">Підсумок<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Масив NumPy зберігає однотипні дані компактно і дозволяє <strong>векторизовані
+  обчислення</strong> — без явних циклів по елементах, і суттєво швидше за них.</li>
+<li>У кожного масиву є <strong>форма</strong> (<code>shape</code>), <strong>тип елементів</strong> (<code>dtype</code>) і
+  кількість вимірів (<code>ndim</code>); тип мовчки підвищується до найширшого,
+  коли в масиві опиняються різнорідні значення.</li>
+<li>Індексація, зрізи й особливо <strong>булева індексація</strong> (<code>&amp;</code>/<code>|</code>, не
+  <code>and</code>/<code>or</code>) — основний спосіб дістати потрібну частину даних; зріз
+  повертає вигляд (view), а не копію.</li>
+<li>Агрегатні функції з параметром <code>axis</code> рахують підсумки вздовж заданої
+  осі — і саме ця вісь зникає з результату.</li>
+<li><strong>Broadcasting</strong> узгоджує масиви різної форми, порівнюючи їх з правого
+  краю; коли автоматичне вирівнювання не те, що потрібно за змістом —
+  вісь розставляють вручну через <code>reshape</code>, <code>newaxis</code> або
+  <code>expand_dims</code>.</li>
+<li>Усе це — фундамент, на якому побудовані pandas, Matplotlib, SciPy й
+  statsmodels.</li>
+</ul>
+<p><strong>Практика до цієї лекції:</strong> <a href="../../practice/01-numpy-env/">Практика 1. Робоче середовище і NumPy</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Повернутись нагору
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "content.code.copy", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0456\u0439\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u0421\u043a\u043e\u043f\u0456\u044e\u0432\u0430\u0442\u0438 \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0429\u0435 1 \u0437\u0431\u0456\u0433 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.more.other": "\u0429\u0435 # \u0437\u0431\u0456\u0433\u0456\u0432 \u043d\u0430 \u0446\u0456\u0439 \u0441\u0442\u043e\u0440\u0456\u043d\u0446\u0456", "search.result.none": "\u0417\u0431\u0456\u0433\u0456\u0432 \u043d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0437\u0431\u0456\u0433", "search.result.other": "\u0417\u043d\u0430\u0439\u0434\u0435\u043d\u043e # \u0437\u0431\u0456\u0433\u0456\u0432", "search.result.placeholder": "\u0420\u043e\u0437\u043f\u043e\u0447\u043d\u0456\u0442\u044c \u043f\u0438\u0441\u0430\u0442\u0438 \u0434\u043b\u044f \u043f\u043e\u0448\u0443\u043a\u0443", "search.result.term.missing": "\u041d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e \u0437\u0430\u043f\u0438\u0442\u0443", "select.version": "\u041e\u0431\u0440\u0430\u0442\u0438 \u0432\u0435\u0440\u0441\u0456\u044e"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
