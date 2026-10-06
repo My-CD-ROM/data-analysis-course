@@ -56,7 +56,7 @@ observed = [8, 12, 9, 15, 7, 9]
 expected = [10, 10, 10, 10, 10, 10]
 
 chi2 = sum((o - e) ** 2 / e for o, e in zip(observed, expected))
-print(chi2)   # (8-10)²/10 + (12-10)²/10 + ... = 4.8
+print(chi2)   # (8-10)²/10 + (12-10)²/10 + ... = 4.4
 ```
 
 **Чому саме квадрат відхилення і саме ділення на очікуване** — це не
@@ -91,9 +91,9 @@ from scipy.stats import chisquare
 
 result = chisquare(f_obs=observed, f_exp=expected)
 print(result.statistic, result.pvalue)
-# statistic ≈ 4.8, pvalue ≈ 0.44
+# statistic ≈ 4.4, pvalue ≈ 0.49
 
-# при α = 0.05: pvalue (0.44) > α, підстав відхилити H0 немає —
+# при α = 0.05: pvalue (0.49) > α, підстав відхилити H0 немає —
 # розбіжність узгоджується з чесним кубиком і випадковим коливанням
 ```
 
