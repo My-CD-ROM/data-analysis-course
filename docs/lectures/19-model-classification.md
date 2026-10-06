@@ -178,12 +178,12 @@ np.random.seed(0)
 n_clients = 5
 service_times = np.random.exponential(scale=3.0, size=n_clients)  # хв
 print(np.round(service_times, 2))
-# [2.53 6.24 0.28 1.28 5.42]
+# [2.39 3.77 2.77 2.36 1.65]
 
 np.random.seed(1)                      # ті самі 5 клієнтів, інший запуск
 service_times = np.random.exponential(scale=3.0, size=n_clients)
 print(np.round(service_times, 2))
-# [3.98 0.35 0.11 1.64 0.02]  -- інший результат при тій самій постановці
+# [1.62 3.82 0.   1.08 0.48]  -- інший результат при тій самій постановці
 ```
 
 **Чому це важлива відмінність.** Детермінована модель дає одне число і
@@ -291,7 +291,7 @@ y = np.random.uniform(-1, 1, n)
 inside_circle = (x**2 + y**2) <= 1
 
 pi_estimate = 4 * inside_circle.mean()
-print(pi_estimate)   # ≈ 3.14, точне число трохи відрізняється між запусками
+print(pi_estimate)   # ≈ 3.15 (точне π = 3.1416); з іншим seed — трохи інше число
 ```
 
 **Чому саме симуляція, а не формула.** Немає простої закритої формули,
